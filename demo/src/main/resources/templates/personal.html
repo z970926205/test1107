@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>personal</title>
+<style type="text/css">
+/* navigation */
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	width: 200px;
+	/* background-color: #f1f1f1; */
+}
+
+li a {
+	display: block;
+	color: #000;
+	padding: 8px 16px;
+	text-decoration: none;
+	border-style:solid;
+	margin: 1px;
+}
+
+/* 鼠标移动到选项上修改背景颜色 */
+.navigationDiv li a:hover {
+	background-color: #555;
+	color: white;
+}
+/* navigation */
+</style>
+</head>
+<body>
+<div class="" >
+		<ul>
+			<li class="userLi">
+				<a id="userA"
+					href="#" 
+					th:text="${session.user.userName}"
+					th:if="${not #lists.isEmpty(session.user)}">修改头像</a>
+			</li>
+			<li><a th:href="@{Login/showLogin}"
+					th:if="${#lists.isEmpty(session.user)}">修改资料</a></li>
+			<li><a th:href="@{Register/showRegister}"
+					th:if="${#lists.isEmpty(session.user)}">修改密码</a></li>
+		</ul>
+	</div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+	<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+		"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 只有接口声明：namespace值必须和接口名相同 -->
+<mapper namespace="com.example.demo.jinx.Login.LoginMapper">
+
+	<!-- public LoginEntity getUser(LoginEntity entity); -->
+	<select id="getUser" resultMap="loginMap">
+		select 
+			*
+		from 
+			user 
+		where
+			username=#{userName}
+	</select>
+
+	<resultMap type="com.example.demo.jinx.Login.LoginEntity" id="loginMap">
+		<id 	property="id" 		column="id"/>
+		<result property="userName" column="username"/>
+		<result property="password" column="password"/>
+	</resultMap>  
+</mapper>
+	
+	
+	
+	
+	
+	
+	
+	
+	

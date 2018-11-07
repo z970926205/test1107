@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>login</title>
+</head>
+<style>
+
+</style>
+<body>
+	<h1 id="message">今天真是个好天气!!!</h1>
+	<div id="loginDiv">
+		<form action="" id="loginForm">
+			<input type="text" id="userName" name="userName"/><br/>
+			<input type="text" id="password" name="password"/><br/>
+			<input type="text" id="captcha" name="captcha"/>
+			<!-- 验证码 -->
+			<img id="captchaImage" alt="验证码" th:src="@{captcha.jpg}"/><br/>
+			<input type="button" id="loginBut" value="登陆"/>
+		</form>
+	</div>
+</body>
+<script th:src="@{/js/jquery-1.10.2.min.js}" type="text/javascript"></script>
+<script type="text/javascript" th:inline="javascript">
+	$("#captchaImage").click(function() {
+		console.log("$(#captchaImage).click(function(){");
+		$("#captchaImage").attr("src", "captcha.jpg?d=" + $.now());
+	});
+	
+	/* 检查用户名是否存在 */
+	$("#userName").blur(function(){
+		$.ajax({
+			url:[[@{checkUserName}]],
+			data:"userName="+$("#userName").val(),
+			type:"get",
+			dataType:"json",
+			success:function(obj){
+				if(obj.state == 0){
+					$("#loginBut").removeAttr("disabled");
+				}else{
+					$("#loginBut").attr("disabled","disabled");
+				}
+				
+					$("#message").html(obj.message);
+			}
+		});
+	})
+		
+	$("#loginBut").click(function(){
+		$.ajax({
+			url:[[@{login}]],
+			data:$("#loginForm").serialize(),
+			type:"post",
+			dataType:"json",
+			success:function(obj){
+				if(obj.state==0){
+					location=[[@{/}]];
+					}
+				$("#message").html(obj.message);
+			}
+		});
+	});
+</script>
+</html>
