@@ -3,13 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <title>error</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/base.css}" />
 </head>
 <style>
-body {
-	background: url(image/xiaoxin.jpg);
-	background-repeat:no-repeat; 
-	background-size:100%;
-}
 h1 {
 	text-align:center;
 	color:blue;
@@ -54,23 +50,8 @@ li a {
 <body>
 	<h1>我们可能遇到了一个错误!!!</h1>
 </body>
-<script th:src="@{js/jquery-1.10.2.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/jquery-1.10.2.min.js}" type="text/javascript"></script>
 <script type="text/javascript" th:inline="javascript">
-	$("#captchaImage").click(function(){
-		console.log("$(#captchaImage).click(function(){");
-		$("#captchaImage").attr("src","captcha.jpg?d="+ $.now());
-		});
-		
-	var tmp = "";	
-	$("#userA").click(function(){
-		if(tmp == ""){
-			$("#userLiUl").attr("class","t2 t3");
-			tmp = "1";
-	    }else{
-	    	$("#userLiUl").attr("class","t1 t3");
-	        tmp = "";
-	    }
-		});
-
+	
 </script>
 </html>

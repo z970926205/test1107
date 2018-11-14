@@ -43,10 +43,11 @@ public class RegisterController {
 		RegisterEntity entity;
 		Page<Void> page;
 		try {
-			if (Utils.checkString(userName) && Utils.checkString(password)) {
+			if (Utils.checkStrings(userName,password)) {
 				entity = new RegisterEntity();
 				entity.setUserName(userName);
 				entity.setPassword(password);
+				entity.setCreator(userName);
 				page = registerService.register(entity);
 			}else{
 				page = new Page<Void>(3, "输入的信息有误");

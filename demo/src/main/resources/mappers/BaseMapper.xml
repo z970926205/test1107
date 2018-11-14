@@ -4,20 +4,35 @@
 <!-- 只有接口声明：namespace值必须和接口名相同 -->
 <mapper namespace="com.example.demo.jinx.general.BaseMapper">
 
-	<!-- public BaseEntity getUserById(Integer id); -->
-	<select id="getUserById" resultMap="baseMap">
+	<!-- public BaseEntity getUser(BaseEntity entity); -->
+	<select id="getUser" resultMap="baseMap">
 		select 
 			*
 		from 
 			user 
-		where
-			id=#{id}
+		<where>
+			<if test="userName != null">
+				username=#{userName} 
+			</if>
+			<if test="id != null">
+				and id=#{id} 
+			</if>
+		</where>
 	</select>
-
+	
 	<resultMap type="com.example.demo.jinx.general.BaseEntity" id="baseMap">
 		<id 	property="id" 		column="id"/>
 		<result property="userName" column="username"/>
 		<result property="password" column="password"/>
+		<result property="userImage" column="userimage"/>
+		<result property="sex" column="sex"/>
+		<result property="phone" column="phone"/>
+		<result property="email" column="email"/>
+		<result property="birthday" column="birthday"/>
+		<result property="mender" column="mender"/>
+		<result property="updateDate" column="updatedate"/>
+		<result property="creator" column="creator"/>
+		<result property="createDate" column="createdate"/>
 	</resultMap>  
 </mapper>
 	

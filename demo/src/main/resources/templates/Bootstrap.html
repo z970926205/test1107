@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
+    <!-- Bootstrap -->
+    <link th:href="@{/bootstrap-3.3.7-dist/css/bootstrap.min.css}" rel="stylesheet"/>
+   </head>
+  <body>
+  <!-- Bootstrap 中定义了所有的 HTML 标题（h1 到 h6）的样式。 -->
+  <!-- 如果想再右边添加一个副标题(内联子标题),可以在标题的标签中添加small标签 -->
+    <h1>你好，世界！<small>这是副标题</small></h1>
+    <!-- 为了给段落添加强调文本，则可以添加 class="lead"，这将得到更大更粗、行高更高的文本 -->
+    <p class="lead">这是一个演示引导主体副本用法的实例。</p>
+    <p >这是一个演示引导主体副本用法的实例。</p>
+    <small>本行内容是在标签内</small><br/>
+	<strong>本行内容是在标签内</strong><br/>
+	<em>本行内容是在标签内，并呈现为斜体</em><br/>
+	<p class="text-left">向左对齐文本</p>
+	<p class="text-center">居中对齐文本</p>
+	<p class="text-right">向右对齐文本</p>
+	<p class="text-muted">本行内容是减弱的</p>
+	<p class="text-primary">本行内容带有一个 primary class</p>
+	<p class="text-success">本行内容带有一个 success class</p>
+	<p class="text-info">本行内容带有一个 info class</p>
+	<p class="text-warning">本行内容带有一个 warning class</p>
+	<p class="text-danger">本行内容带有一个 danger class</p>
+	<!--  <abbr> 元素的样式为显示在文本底部的一条虚线边框，当鼠标悬停在上面时会显示完整的文本（只要您为 <abbr> title 属性添加了文本） -->
+	<abbr title="World Wide Web">WWW</abbr><br/>
+	<abbr title="World Wide Web" class="initialism">RSS</abbr>
+    <!-- 通过添加 img-responsive class 可以让 Bootstrap 3 中的图像对响应式布局的支持更友好。 -->
+    <img th:src="@{/image/userImage/user.jpeg}" class="img-responsive" alt="响应式图像"/>
+    
+  </body>
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script th:src="@{/js/jquery-1.10.2.min.js}" type="text/javascript"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script th:src="@{/bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+</html>

@@ -78,8 +78,7 @@ public class loginController {
 		Page<Void> page;
 		LoginEntity entity;
 		try {
-			if (Utils.checkString(userName) || !Utils.checkString(password)
-					|| !Utils.checkString(captcha)) {
+			if (Utils.checkStrings(userName,password,captcha)) {
 				String kaptcha = (String) session
 						.getAttribute(Constants.KAPTCHA_SESSION_KEY);
 				if (captcha.equalsIgnoreCase(kaptcha)) {

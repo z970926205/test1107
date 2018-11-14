@@ -20,6 +20,11 @@ public class MainController {
 		return "index";
 	}
 	
+	@RequestMapping("/1")
+	public String s(){
+		return "Bootstrap";
+	}
+	
 	@RequestMapping("/exitUser")
 	public String exitUser(){
 		try {

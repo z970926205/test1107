@@ -19,6 +19,7 @@ public class RegisterServiceImpl implements RegisterService {
 		Page<Void> page;
 		try {
 			entity.setPassword(Utils.stringMD5(entity.getPassword()));
+			entity.setSex("-1");
 			if(registerMapper.insertUser(entity)==1){
 				page = new Page<Void>(0, "注册成功");
 			}else{
@@ -38,7 +39,7 @@ public class RegisterServiceImpl implements RegisterService {
 		RegisterEntity entity;
 		RegisterEntity returnEntity;
 		try {
-			if (!Utils.checkString(userName)) {
+			if (!Utils.checkStrings(userName)) {
 				page = new Page<Void>(2, "用户名输入有误");
 			} else {
 				entity = new RegisterEntity();

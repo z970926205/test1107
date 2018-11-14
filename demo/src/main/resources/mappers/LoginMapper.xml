@@ -18,6 +18,15 @@
 		<id 	property="id" 		column="id"/>
 		<result property="userName" column="username"/>
 		<result property="password" column="password"/>
+		<result property="userImage" column="userimage"/>
+		<result property="sex" column="sex"/>
+		<result property="phone" column="phone"/>
+		<result property="email" column="email"/>
+		<result property="birthday" column="birthday"/>
+		<result property="mender" column="mender"/>
+		<result property="updateDate" column="updatedate"/>
+		<result property="creator" column="creator"/>
+		<result property="createDate" column="createdate"/>
 	</resultMap>  
 </mapper>
 	

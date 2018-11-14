@@ -1,0 +1,9 @@
+body {
+	background: url(/image/xiaoxin.jpg);
+	background-repeat:no-repeat; 
+	background-size:100%;
+}
+h1 {
+	text-align:center;
+	color:blue;
+}

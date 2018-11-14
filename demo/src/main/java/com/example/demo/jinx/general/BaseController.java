@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class BaseController {
+	//private static final Log logger = LogFactory.getLog(.class);
 	private static final Log logger = LogFactory.getLog(BaseController.class);
 	@Autowired
 	private BaseService baseService;
@@ -22,10 +23,13 @@ public class BaseController {
 	public boolean setSessionUser(Integer userId) {
 		logger.info(userId);
 		BaseEntity entity;
+		BaseEntity returnEntity;
 		try {
-			entity = baseService.getUserById(userId);
-			if(entity!=null){
-				session.setAttribute("user", entity);
+			entity = new BaseEntity();
+			entity.setId(userId);
+			returnEntity = baseService.getUser(entity);
+			if(returnEntity!=null){
+				session.setAttribute("user", returnEntity);
 				logger.info(((BaseEntity)session.getAttribute("user")).toString());
 				return true;
 			}
@@ -36,7 +40,15 @@ public class BaseController {
 		return false;
 	}
 
-	public BaseEntity getSessionUser(Integer userId) {
+	public BaseEntity getSessionUser() {
+		BaseEntity entity;
+		try {
+			entity = (BaseEntity)session.getAttribute("user");
+			return entity;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("error");
+		}
 		return null;
 	}
 	
@@ -47,6 +59,20 @@ public class BaseController {
 		logger.info("");
 		try {
 			session.removeAttribute("user");
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("error");
+		}
+		return false;
+	}
+	
+	public boolean checkUserName(String userName) {
+		BaseEntity entity;
+		try {
+			entity = new BaseEntity();
+			entity.setUserName(userName);
+			if(baseService.getUser(entity) !=null)
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -23,7 +23,7 @@ public class LoginServiceImpl implements LoginService {
 		LoginEntity entity;
 		LoginEntity returnEntity;
 		try {
-			if (!Utils.checkString(userName)) {
+			if (!Utils.checkStrings(userName)) {
 				page = new Page<Void>(2, "用户名输入有误");
 			} else {
 				entity = new LoginEntity();

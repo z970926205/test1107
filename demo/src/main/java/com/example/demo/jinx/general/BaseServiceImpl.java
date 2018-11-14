@@ -18,15 +18,16 @@ public class BaseServiceImpl implements BaseService{
 	private BaseMapper baseMapper;
 
 	@Override
-	public BaseEntity getUserById(Integer id) {
-		logger.info(id);
-		BaseEntity entity = null;
+	public BaseEntity getUser(BaseEntity entity) {
+		logger.info("entity:"+entity);
+		BaseEntity returnEntity = null;
 		try {
-			entity = baseMapper.getUserById(id);
+			returnEntity = baseMapper.getUser(entity);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.info("error");
 		}
-		return entity;
+		return returnEntity;
 	}
+	
 }

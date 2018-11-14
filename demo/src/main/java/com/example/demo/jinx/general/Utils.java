@@ -2,21 +2,57 @@ package com.example.demo.jinx.general;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class Utils {
-
-	public static boolean checkString(String str) {
-		if (str != null && !"".equals(str.trim())) {
-			return true;
-		}
-		return false;
+	private static final Log logger = LogFactory.getLog(Utils.class); 
+	@SuppressWarnings("null")
+	public static boolean checkStrings(String... params) {//Java 可变参数列表
+		logger.info("");
+		if (null == params || params.length == 0) {//数params是被作为一个数组对待的
+            return false;
+        }
+		for (String param : params) {
+			if (param == null && "".equals(param.trim())) {
+                return false;//只要有一个参数符合则返回false
+            }
+			//去空
+			param = param.trim();
+        }
+		return true;
 	}
+	
+	public static boolean isNulls(Object... params) {
+		logger.info("");
+		if (null == params || params.length == 0) {//数params是被作为一个数组对待的
+            return false;
+        }
+		for (Object param : params) {
+			if (param == null) {
+                return false;//只要有一个参数符合则返回false
+            }
+        }
+		return true;
+	}
+	
+	public static Date setformatDate(String date){
+		return null;
+	}
+	
+	public static Date setformatTime(String date){
+		return null;
+	}
+	
 	/**
 	 * MD5加密
 	 * @param input
 	 * @return
 	 */
 	public static String stringMD5(String input) {
+		logger.info("");
 		try {
 			// 拿到一个MD5转换器（如果想要SHA1参数换成”SHA1”）
 			MessageDigest messageDigest = MessageDigest.getInstance("MD5");

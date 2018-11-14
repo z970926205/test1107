@@ -3,41 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <title>HelloJinx</title>
+<link rel="stylesheet" type="text/css" th:href="@{css/navigation.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{css/base.css}" />
 </head>
 <style>
-body {
-	background: url(image/xiaoxin.jpg);
-	background-repeat:no-repeat; 
-	background-size:100%;
-}
-h1 {
-	text-align:center;
-	color:blue;
-}
-/* navigation */
-ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	width: 200px;
-	/* background-color: #f1f1f1; */
-}
 
-li a {
-	display: block;
-	color: #000;
-	padding: 8px 16px;
-	text-decoration: none;
-	border-style:solid;
-	margin: 1px;
-}
-
-/* 鼠标移动到选项上修改背景颜色 */
-.navigationDiv li a:hover {
-	background-color: #555;
-	color: white;
-}
-/* navigation */
 /* 用户下拉 */
 .t3{
 	position:relative;
@@ -62,7 +32,7 @@ li a {
 					th:if="${not #lists.isEmpty(session.user)}">用户名</a>
 				<ul id="userLiUl" class="t1 t3">
 					<li>
-						<a th:href="@{user/showUser}" >个人资料</a>
+						<a th:href="@{personal/showPersonal}" >个人资料</a>
 					</li>
 					<li>
 						<a id="exitUser" 
