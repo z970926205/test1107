@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+	<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+		"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 只有接口声明：namespace值必须和接口名相同 -->
+<mapper namespace="com.example.demo.jinx.personal.PersonalMapper">
+
+	<!-- public Integer updateUser(PersonalEntity entity); -->
+	<update id="updateUser" parameterType="com.example.demo.jinx.personal.PersonalEntity">
+		UPDATE 
+			user 
+		SET 
+			userName=#{userName}, 
+			sex=#{sex},
+			phone=#{phone},
+			email=#{email},
+			birthday=#{birthday}
+		where
+			id=#{id}
+	</update>
+	
+	<resultMap type="com.example.demo.jinx.personal.PersonalEntity" id="baseMap">
+		<id 	property="id"			column="id"/>
+		<result property="userName"		column="username"/>
+		<result property="password"		column="password"/>
+		<result property="userImage"	column="userimage"/>
+		<result property="sex"			column="sex"/>
+		<result property="phone" 		column="phone"/>
+		<result property="email" 		column="email"/>
+		<result property="birthday" 	column="birthday"/>
+		<result property="mender" 		column="mender"/>
+		<result property="updateDate" 	column="updatedate"/>
+		<result property="creator" 		column="creator"/>
+		<result property="createDate" 	column="createdate"/>
+	</resultMap>  
+</mapper>
+	
+	
+	
+	
+	
+	
+	
+	
+	

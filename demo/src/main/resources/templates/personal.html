@@ -12,6 +12,7 @@
 	width:400px;
 	margin:0 auto;
 	text-align:center;
+	background:pink; 
 }
 .navigationDiv{
 	float:left;
@@ -23,12 +24,17 @@
 	margin:30px;
 	padding:30px;
 	border-style:solid;
-	height:500px;
+}
+ul{
+	list-style-type: none;
 }
 </style>
 </head>
 <body>
+		<!-- 引入顶部导航栏 -->
+		<div th:replace="navigation :: html"></div>
 	<div class="bodys">
+		<!-- 个人资料侧边栏原型 -->
 		<div class="navigationDiv" th:fragment="personalNavigation">
 		<ul>
 			<li class="userLi">
@@ -54,9 +60,8 @@
 			  <span th:case="'0'">女</span>
 			  <!-- *: case的默认的选项 -->
 			  <span th:case="'1'">男</span>
-			  <span th:case="*">保密</span>
+			  <span th:case="'2'" >保密</span>
 			</li>
-			<li th:text="*{sex}">性别</li>
 			<li th:text="*{phone}">手机号</li>
 			<li th:text="*{email}">邮箱</li>
 			<li th:text="*{birthday}">生日</li>

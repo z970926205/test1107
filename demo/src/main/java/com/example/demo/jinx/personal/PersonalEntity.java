@@ -1,14 +1,12 @@
 package com.example.demo.jinx.personal;
 
-import java.util.Date;
-
 public class PersonalEntity {
 	private Integer id;
 	private String userName;
 	private String password;
 	private String userImage;
 	private String sex;
-	private Integer phone;
+	private String phone;
 	private String email;
 	private String birthday;
 	private String mender;
@@ -45,10 +43,10 @@ public class PersonalEntity {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	public Integer getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(Integer phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public String getEmail() {

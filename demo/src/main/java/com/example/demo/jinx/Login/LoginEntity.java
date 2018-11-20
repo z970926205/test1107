@@ -7,7 +7,7 @@ public class LoginEntity {
 	private String password;
 	private String userImage;
 	private String sex;
-	private Integer phone;
+	private String phone;
 	private String email;
 	private String birthday;
 	private String mender;
@@ -28,10 +28,10 @@ public class LoginEntity {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	public Integer getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(Integer phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public String getEmail() {

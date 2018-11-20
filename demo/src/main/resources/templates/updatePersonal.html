@@ -11,6 +11,7 @@
 	height:300px;
 	width:400px;
 	margin:0 auto;
+	background:pink; 
 }
 .navigationDiv{
 	float:left;
@@ -22,7 +23,6 @@
 	margin:30px;
 	padding:30px;
 	border-style:solid;
-	height:500px;
 }
 .personalFormDiv{
 	margin-top: 30px;
@@ -40,31 +40,29 @@
 </style>
 </head>
 <body>
-	<h1 id="message">今天真是个好天气!!!</h1>
+	<!-- 引入顶部导航栏 -->
+	<div th:replace="navigation :: html"></div>
 	<div class="bodys">
-		<div class="navigationDiv" th:fragment="personalNavigation">
-			<ul>
-				<li class="userLi">
-					<a id="updateImage"
-						th:href="@{personal/showPersonal}">修改头像</a></li>
-				<li><a id="updatePersonal"
-						th:href="@{personal/updatePersonal}">修改资料</a></li>
-				<li><a id="updatePassword"
-						th:href="@{personal/updatePassword}">修改密码</a></li>
-			</ul>
-		</div>
-		<div class="personalMessage" th:object="${session.user}">
+		<!-- 引入个人资料侧边栏 -->
+		<div class="navigationDiv" th:replace="personal :: personalNavigation"></div>
+		<div class="personalMessage">
 			<div class="personalFormDiv">
-				<form action="#" id="updateForm">
+				<form action="#" id="updateForm" th:object="${session.user}">
+					<input type="hidden" name="id" th:value="*{id}"/><br/>
 					<span class="formText">姓名</span>
 					<input type="text" id="userName" name="userName" th:value="*{userName}"/><br/>
 					<span class="formText">性别</span>
-					<input type="radio" id="sex1" name="sex" value="1"/>
-					<label for="sex1">男</label>
-					<input type="radio" id="sex0" name="sex" value="0"/>
+					<!-- thymeleaf通过判断来添加checked属性 -->
+					<input type="radio" id="sex0" name="sex" value="0"
+						th:checked = "*{sex=='0'}"/>
 					<label for="sex0">女</label>
-					<input type="radio" id="sex-1" name="sex" value="-1" checked="checked"/>
-					<label for="sex-1">保密</label><br/>
+					<input type="radio" id="sex1" name="sex" value="1"
+						th:checked = "*{sex=='1'}"/>
+					<label for="sex1">男</label>
+					<!-- 单选框与文字绑定,都可以通过点击进行选取 -->
+					<input type="radio" id="sex2" name="sex" value="2"
+						th:checked = "*{sex=='2'}"/>
+					<label for="sex2">保密</label><br/>
 					<span class="formText">手机</span>
 					<input type="text" name="phone" th:value="*{phone}"/><br/>
 					<span class="formText">邮箱</span>
@@ -108,7 +106,7 @@
 			dataType:"json",
 			success:function(obj){
 				if(obj.state==0){
-					location=[[@{/}]];
+					location=[[@{showPersonal}]];
 					}
 				$("#message").html(obj.message);
 			}

@@ -9,14 +9,13 @@ import org.apache.commons.logging.LogFactory;
 
 public class Utils {
 	private static final Log logger = LogFactory.getLog(Utils.class); 
-	@SuppressWarnings("null")
 	public static boolean checkStrings(String... params) {//Java 可变参数列表
 		logger.info("");
 		if (null == params || params.length == 0) {//数params是被作为一个数组对待的
             return false;
         }
 		for (String param : params) {
-			if (param == null && "".equals(param.trim())) {
+			if (param == null || "".equals(param.trim())) {
                 return false;//只要有一个参数符合则返回false
             }
 			//去空

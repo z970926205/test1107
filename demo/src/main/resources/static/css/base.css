@@ -1,9 +1,17 @@
+html, body, div, ul, li, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, form, input, textarea, th, td, select {
+    margin: 0px;
+    padding: 0px;
+}
+
 body {
 	background: url(/image/xiaoxin.jpg);
 	background-repeat:no-repeat; 
 	background-size:100%;
 }
-h1 {
-	text-align:center;
-	color:blue;
+
+.bods{
+	margin-top:56px;
+	margin-left:206px;
+	padding:1px 16px;
+	height:1000px;
 }

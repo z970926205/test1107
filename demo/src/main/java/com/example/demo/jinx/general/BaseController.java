@@ -19,7 +19,9 @@ public class BaseController {
 	@Autowired
 	private BaseService baseService;
 	@Autowired
-	HttpSession session;
+	private HttpSession session;
+	
+	private BaseEntity sessionUser;
 	public boolean setSessionUser(Integer userId) {
 		logger.info(userId);
 		BaseEntity entity;
@@ -30,6 +32,7 @@ public class BaseController {
 			returnEntity = baseService.getUser(entity);
 			if(returnEntity!=null){
 				session.setAttribute("user", returnEntity);
+				sessionUser = returnEntity;
 				logger.info(((BaseEntity)session.getAttribute("user")).toString());
 				return true;
 			}
@@ -41,19 +44,12 @@ public class BaseController {
 	}
 
 	public BaseEntity getSessionUser() {
-		BaseEntity entity;
-		try {
-			entity = (BaseEntity)session.getAttribute("user");
-			return entity;
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.info("error");
-		}
-		return null;
+		return sessionUser;
 	}
 	
 	public boolean updateSessionUser(Integer userId) {
-		return false;
+		logger.info(userId);
+		return setSessionUser(userId);
 	}
 	public boolean DeleteSessionUser() {
 		logger.info("");

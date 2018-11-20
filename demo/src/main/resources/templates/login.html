@@ -6,18 +6,51 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/base.css}" />
 </head>
 <style>
-
+.inTest{
+	width:200px;
+	height:30px;	
+	margin:6px auto;
+}
+.loginDiv{
+	width:400px;
+	border-style:solid;
+	margin:6px auto;
+	padding:3px;
+	position:relative;
+	left:40px;
+	background:pink; 
+}
+.captchaImage{
+	width:130px;
+	position:absolute;
+	bottom:50px;
+}
+.inBut{
+	position:relative;
+	left:100px;
+	width:100px;
+	height:40px;
+}
+.inPass{
+	position:relative;
+	left:3px;
+}
 </style>
 <body>
-	<h1 id="message">今天真是个好天气!!!</h1>
-	<div id="loginDiv">
+	<!-- 引入顶部导航栏 -->
+	<div th:replace="navigation :: html"></div>
+	<div class="loginDiv">
 		<form action="" id="loginForm">
-			<input type="text" id="userName" name="userName"/><br/>
-			<input type="text" id="password" name="password"/><br/>
-			<input type="text" id="captcha" name="captcha"/>
+			<span>用户名:</span>
+			<input class="inTest" type="text" id="userName" name="userName"/><br/>
+			<span>密&nbsp;&nbsp;&nbsp;码:</span>
+			<input class="inTest inPass" type="text" id="password" name="password"/><br/>
+			<span>验证码:</span>
+			<input class="inTest" type="text" id="captcha" name="captcha"/>
 			<!-- 验证码 -->
-			<img id="captchaImage" alt="验证码" th:src="@{captcha.jpg}" onclick="changCaptcha()"/><br/>
-			<input type="button" id="loginBut" value="登陆"/>
+			<img class="captchaImage" id="captchaImage" alt="验证码" 
+				th:src="@{captcha.jpg}" onclick="changCaptcha()"/><br/>
+			<input class="inBut" type="button" id="loginBut" value="登陆"/>
 		</form>
 	</div>
 </body>
@@ -65,5 +98,30 @@
 			}
 		});
 	});
+	
+	function loginBut(){
+		$.ajax({
+			url:[[@{login}]],
+			data:$("#loginForm").serialize(),
+			type:"post",
+			dataType:"json",
+			success:function(obj){
+				if(obj.state==0){
+					location=[[@{/}]];
+					}else{
+						/* 跳转失败更新验证码 */
+						changCaptcha()
+					}
+				$("#message").html(obj.message);
+			}
+		});
+	}
+	
+	/* 键盘监听 */
+	$(document).keydown(function(event){
+	　　　　console.log(event.keyCode);
+		if(event.keyCode==13)
+			loginBut();
+	　　});
 </script>
 </html>

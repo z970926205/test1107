@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.jinx.general.BaseController;
 import com.example.demo.jinx.general.Utils;
 
 @Controller
@@ -31,18 +30,18 @@ public class PersonalController {
 
 	@RequestMapping(value = "updatePersonal", method = RequestMethod.POST)
 	@ResponseBody
-	public Page<Void> updatePersonal(String id, String name, String sex,
+	public Page<Void> updatePersonal(String id, String userName, String sex,
 			String phone, String email, String birthday) {
-		logger.info("");
+		logger.info(id+"/"+userName+"/"+sex+"/"+phone+"/"+email+"/"+birthday);
 		Page<Void> page;
 		PersonalEntity entity;
 		try {
-			if (Utils.checkStrings(name, sex, email, birthday,id, phone)) {
+			if (Utils.checkStrings(userName, sex, email, birthday,id, phone)) {
 				entity = new PersonalEntity();
-				entity.setId(Integer.parseInt(id.trim()));
-				entity.setUserName(name);
+				entity.setId(Integer.parseInt(id));
+				entity.setUserName(userName);
 				entity.setSex(sex);
-				entity.setPhone(Integer.parseInt(phone.trim()));
+				entity.setPhone(phone);
 				entity.setEmail(email);
 				entity.setBirthday(birthday);
 				page = personalService.updatePersonal(entity);
