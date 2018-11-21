@@ -14,6 +14,7 @@ import com.example.demo.jinx.general.Utils;
 public class RegisterController {
 	private static final Log logger = LogFactory
 			.getLog(RegisterController.class);
+	
 	@Autowired
 	private RegisterService registerService;
 

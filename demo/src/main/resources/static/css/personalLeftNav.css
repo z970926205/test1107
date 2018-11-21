@@ -1,17 +1,18 @@
 /* navigation */
-.liftNavigationDiv{
+.personalLeftNav{
 	position:fixed;
 	height: 100%;
 	/* 内容自适应 可滑动 */
-    overflow: hidden;
+    /* overflow: auto; */
     border-style:solid;
+    position: fixed;
     padding-top:15px;
 	background-color: #f1f1f1;
 	left:0px;
 	top:0px;
 	width: 202px;
 }
-.liftNavigationDiv ul {
+.personalLeftNav ul {
 	list-style-type: none;
     margin: 0;
     padding: 0;
@@ -19,7 +20,7 @@
     overflow: auto;
 }
 
-.liftNavigationDiv li a {
+.personalLeftNav li a {
 	display: block;
 	color: #000;
 	padding: 8px 16px;
@@ -27,28 +28,18 @@
 	margin: 1px;
 }
 
-.liftNavigationDiv li{
+.personalLeftNav li{
 	text-align:center;
 }
 
 /* 鼠标移动到选项上修改背景颜色 */
-.liftNavigationDiv li a:hover {
+.personalLeftNav li a:hover {
 	background-color: #555;
 	color: white;
 }
 /* navigation */
-/* 用户下拉 */
-.userLiUlNone{
-	display:none;
-}
-.userLiUlShow{
-}
-.liftNavigationDiv>ul>li ul{
-	background-color: #556;
-}
-/* 用户下拉 */
 
-.liftNavigationDiv p {
+.personalLeftNav p {
 	text-align:center;
 	color:red;
 }

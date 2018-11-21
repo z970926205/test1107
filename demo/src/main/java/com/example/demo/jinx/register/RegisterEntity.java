@@ -106,6 +106,4 @@ public class RegisterEntity {
 				+ ", creator=" + creator + ", createDate=" + createDate
 				+ ", count=" + count + "]";
 	}
-
-	
 }

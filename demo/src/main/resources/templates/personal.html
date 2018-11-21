@@ -3,71 +3,47 @@
 <head>
 <meta charset="UTF-8"/>
 <title>personal</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/navigation.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/base.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/personalLeftNav.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/personal.css}" />
 <style type="text/css">
 .personalMessage{
-	border-style:solid;
-	height:300px;
-	width:400px;
-	margin:0 auto;
 	text-align:center;
-	background:pink; 
-}
-.navigationDiv{
-	float:left;
 }
 .userImage{
 	width:140px;
 }
-.bodys{
-	margin:30px;
-	padding:30px;
-	border-style:solid;
-}
+
 ul{
 	list-style-type: none;
 }
 </style>
 </head>
 <body>
-		<!-- 引入顶部导航栏 -->
-		<div th:replace="navigation :: html"></div>
 	<div class="bodys">
-		<!-- 个人资料侧边栏原型 -->
-		<div class="navigationDiv" th:fragment="personalNavigation">
-		<ul>
-			<li class="userLi">
-				<a id="updateImage"
-					th:href="@{showPersonal}">修改头像</a></li>
-			<li><a id="updatePersonal"
-					th:href="@{updatePersonal}">修改资料</a></li>
-			<li><a id="updatePassword"
-					th:href="@{updatePassword}">修改密码</a></li>
-		</ul>
-	</div>
-	<div class="personalMessage" th:object="${session.user}">
-		<img class="userImage" alt="头像" 
-			th:if="*{userImage}"
-			th:src="@{/image/userImage/*{userImage}}"/>
-		<img class="userImage" alt="头像" 
-			th:unless="*{userImage}"
-			th:src="@{/image/userImage/user.jpeg}"/>
-		<ul>
-			<li th:text="*{userName}">姓名</li>
-			<!-- th:switch / th:case -->
-			<li th:switch="*{sex}">
-			  <span th:case="'0'">女</span>
-			  <!-- *: case的默认的选项 -->
-			  <span th:case="'1'">男</span>
-			  <span th:case="'2'" >保密</span>
-			</li>
-			<li th:text="*{phone}">手机号</li>
-			<li th:text="*{email}">邮箱</li>
-			<li th:text="*{birthday}">生日</li>
-			<li th:text="*{createDate}">注册日期</li>
-		</ul>
-	</div>
+		<!-- 引入左侧导航栏 -->
+		<div th:replace="personalLeftNav :: html"></div>
+		<div class="personalMessage" th:object="${session.user}">
+			<img class="userImage" alt="头像" 
+				th:src="*{userImage}?@{/image/userImage/{userImage}(userImage=*{userImage})}:@{/image/userImage/user.jpeg}"/>
+			<!-- <img class="userImage" alt="头像" 
+				th:unless="*{userImage}"
+				th:src="@{/image/userImage/user.jpeg}"/> -->
+			<ul>
+				<li th:text="*{userName}">姓名</li>
+				<!-- th:switch / th:case -->
+				<li th:switch="*{sex}">
+				  <span th:case="'0'">女</span>
+				  <!-- *: case的默认的选项 -->
+				  <span th:case="'1'">男</span>
+				  <span th:case="'2'" >保密</span>
+				</li>
+				<li th:text="*{phone}">手机号</li>
+				<li th:text="*{email}">邮箱</li>
+				<li th:text="*{birthday}">生日</li>
+				<li th:text="*{createDate}">注册日期</li>
+			</ul>
+		</div>
 	</div>
 </body>
 </html>

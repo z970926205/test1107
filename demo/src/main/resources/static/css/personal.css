@@ -1,0 +1,11 @@
+.personalMessage{
+	position:absolute;
+	background:pink; 
+	border-style:solid;
+	height:300px;
+	width:400px;
+	margin-top:6px;
+	top:100px;
+	left:500px;
+	padding-top:20px;
+}

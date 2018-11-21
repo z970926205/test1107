@@ -9,11 +9,29 @@
 		UPDATE 
 			user 
 		SET 
-			userName=#{userName}, 
+			<if test="userName != null">
+				username=#{userName} 
+			</if>
+			<if test="sex != null">
+				sex=#{sex}
+			</if>
+			<if test="phone != null">
+				phone=#{phone},
+			</if>
+			<if test="email != null">
+				email=#{email}
+			</if>
+			<if test="birthday != null">
+				birthday=#{birthday}
+			</if>
+			<if test="userImage != null">
+				userImage=#{userImage}
+			</if>
+			<!-- userName=#{userName}, 
 			sex=#{sex},
 			phone=#{phone},
 			email=#{email},
-			birthday=#{birthday}
+			birthday=#{birthday} -->
 		where
 			id=#{id}
 	</update>
@@ -27,6 +45,7 @@
 		<result property="phone" 		column="phone"/>
 		<result property="email" 		column="email"/>
 		<result property="birthday" 	column="birthday"/>
+		<result property="face" 		column="face"/>
 		<result property="mender" 		column="mender"/>
 		<result property="updateDate" 	column="updatedate"/>
 		<result property="creator" 		column="creator"/>

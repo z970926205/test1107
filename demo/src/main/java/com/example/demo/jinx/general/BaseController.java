@@ -33,7 +33,7 @@ public class BaseController {
 			if(returnEntity!=null){
 				session.setAttribute("user", returnEntity);
 				sessionUser = returnEntity;
-				logger.info(((BaseEntity)session.getAttribute("user")).toString());
+				logger.info("session:"+((BaseEntity)session.getAttribute("user")).toString());
 				return true;
 			}
 		} catch (Exception e) {

@@ -4,14 +4,17 @@
 <meta charset="UTF-8" />
 <title>HelloJinx</title>
 <style type="text/css">
-
+.liP{
+	margin-bottom:5px;
+}
 </style>
 </head>
 <body>
 	<div class="liftNavigationDiv" th:fragment="navigation">
 		<ul>
+			<li><p class="liP" id="message">今天真是个好天气!!!</p></li>
 			<li>
-				<img class="indexImg" alt="主页" th:src="@{/image/indexImg.jpg}"/>
+				<img id="indexImg" class="indexImg" alt="主页" th:src="@{/image/indexImg.jpg}"/>
 			</li>
 			<li class="userLi">
 				<a id="userA"
@@ -38,7 +41,7 @@
 	</div>
 </body>
 <script th:src="@{/js/jquery-1.10.2.min.js}" type="text/javascript"></script>
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
 	var tmp = "";	
 	$("#userA").click(function(){
 		if(tmp == ""){
@@ -49,5 +52,9 @@
 	        tmp = "";
 	    }
 		});
+	
+	$("#indexImg").click(function(){
+		location=[[@{/}]];
+	});
 </script>
 </html>

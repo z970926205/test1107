@@ -106,6 +106,4 @@ public class LoginEntity {
 				+ ", creator=" + creator + ", createDate=" + createDate
 				+ ", count=" + count + "]";
 	}
-
-	
 }

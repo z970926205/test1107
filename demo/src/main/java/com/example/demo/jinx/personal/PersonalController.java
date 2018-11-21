@@ -28,15 +28,53 @@ public class PersonalController {
 		return "updatePersonal";
 	}
 
+	// 显示修改头像页面
+	@RequestMapping(value = "updatePersonalFace", method = RequestMethod.GET)
+	public String PersonalFace() {
+		return "updatePersonalFace";
+	}
+
+	// 显示修改密码页面
+	@RequestMapping(value = "updatePersonalPassword", method = RequestMethod.GET)
+	public String PersonalPassword() {
+		return "updatePersonalPassword";
+	}
+
+	// 修改头像页面
+	@RequestMapping(value = "updatePersonalFace", method = RequestMethod.POST)
+	@ResponseBody
+	public Page<Void> updatePersonalFace(String userFace, Integer id) {
+		logger.info("userFace:" + userFace + "id:" + id);
+		Page<Void> page;
+		PersonalEntity entity;
+		try {
+			if (Utils.isNulls(id) && Utils.checkStrings(userFace)) {
+				entity = new PersonalEntity();
+				entity.setId(id);
+				entity.setUserImage(userFace);
+				page = personalService.updatePersonalFace(entity);
+			} else {
+				page = new Page<Void>(1, "参数异常");
+				logger.info("error");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			page = new Page<Void>(1, "系统异常");
+			logger.info("error");
+		}
+		return page;
+	}
+
 	@RequestMapping(value = "updatePersonal", method = RequestMethod.POST)
 	@ResponseBody
 	public Page<Void> updatePersonal(String id, String userName, String sex,
 			String phone, String email, String birthday) {
-		logger.info(id+"/"+userName+"/"+sex+"/"+phone+"/"+email+"/"+birthday);
+		logger.info(id + "/" + userName + "/" + sex + "/" + phone + "/" + email
+				+ "/" + birthday);
 		Page<Void> page;
 		PersonalEntity entity;
 		try {
-			if (Utils.checkStrings(userName, sex, email, birthday,id, phone)) {
+			if (Utils.checkStrings(userName, sex, email, birthday, id, phone)) {
 				entity = new PersonalEntity();
 				entity.setId(Integer.parseInt(id));
 				entity.setUserName(userName);

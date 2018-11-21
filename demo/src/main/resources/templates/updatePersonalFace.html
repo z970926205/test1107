@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8"/>
+<title>personal</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/base.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/personalLeftNav.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/personal.css}" />
+<style type="text/css">
+.personalMessage{
+	left:300px;
+	text-align:center;
+	padding-top:10px;
+}
+.userImages{
+	position:absolute;
+	right:0px;
+	width:516px;
+}
+.userImage{
+	width:150px;
+}
+.userImg{
+	width:250px;
+}
+.but{
+	margin-top:10px;
+	width:80px;
+	height:30px;
+}
+</style>
+</head>
+<body>
+	<div class="bodys">
+		<!-- 引入左侧导航栏 -->
+		<div th:replace="personalLeftNav :: html"></div>
+		<div class="personalMessage">
+			<form id="updateForm"  action="#" th:object="${session.user}" >
+				<input type="hidden" name="id" th:value="*{id}"/>
+				<img id="userImg" class="userImg" alt="头像" th:src="@{/image/userImage/userFace(1).jpg}"/>
+				<input id="userFace" type="hidden" name="userFace" /><br/>
+				<input class="but" type="button" id="upPersonalBut" value="修改" />
+			</form>
+		</div>
+		<div class="userImages">
+			<img  class="userImage" alt="userFace(1).jpg" th:src="@{/image/userImage/userFace(1).jpg}" onclick='getImgUrl(this)'/>
+			<img class="userImage" alt="userFace(2).jpg" th:src="@{/image/userImage/userFace(2).jpg}" onclick='getImgUrl(this)'/>
+			<img class="userImage" alt="userFace(3).jpg" th:src="@{/image/userImage/userFace(3).jpg}" onclick='getImgUrl(this)'/>
+			<img class="userImage" alt="userFace(4).jpg" th:src="@{/image/userImage/userFace(4).jpg}" onclick='getImgUrl(this)'/>
+			<img class="userImage" alt="userFace(5).jpg" th:src="@{/image/userImage/userFace(5).jpg}" onclick='getImgUrl(this)'/>
+			<img class="userImage" alt="userFace(6).jpg" th:src="@{/image/userImage/userFace(6).jpg}" onclick='getImgUrl(this)'/>
+			<img class="userImage" alt="userFace(7).jpg" th:src="@{/image/userImage/userFace(7).jpg}" onclick='getImgUrl(this)'/>
+			<img class="userImage" alt="userFace(8).jpg" th:src="@{/image/userImage/userFace(8).jpg}" onclick='getImgUrl(this)'/>
+			<img class="userImage" alt="userFace(9).jpg" th:src="@{/image/userImage/userFace(9).jpg}" onclick='getImgUrl(this)'/>
+			<img class="userImage" alt="userFace(10).jpg" th:src="@{/image/userImage/userFace(10).jpg}" onclick='getImgUrl(this)'/>
+			<img class="userImage" alt="userFace(11).jpg" th:src="@{/image/userImage/userFace(11).jpg}" onclick='getImgUrl(this)'/>
+			<img class="userImage" alt="userFace(12).jpg" th:src="@{/image/userImage/userFace(12).jpg}" onclick='getImgUrl(this)'/>
+		</div>
+	</div>
+</body>
+<script th:src="@{/js/jquery-1.10.2.min.js}" type="text/javascript"></script>
+<script type="text/javascript" th:inline="javascript">
+	/* 获取用户选择的头像的信息并付给表单 */
+	function getImgUrl(img){
+		$("#userImg").attr("src",img.src);
+		$("#userFace").attr("value",img.alt);
+	}	
+	
+	$("#upPersonalBut").click(function(){
+		$.ajax({
+			url:[[@{updatePersonalFace}]],
+			data:$("#updateForm").serialize(),
+			type:"post",
+			dataType:"json",
+			success:function(obj){
+				if(obj.state==0){
+					location=[[@{showPersonal}]];
+					}
+				$("#message").html(obj.message);
+			}
+		});
+	});
+</script>
+<script>
+    
+</script>
+</html>

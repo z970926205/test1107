@@ -3,27 +3,17 @@
 <head>
 <meta charset="UTF-8"/>
 <title>personal</title>
-<link rel="stylesheet" type="text/css" th:href="@{/css/navigation.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/base.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/personalLeftNav.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/personal.css}" />
 <style type="text/css">
-.personalMessage{
-	border-style:solid;
-	height:300px;
-	width:400px;
-	margin:0 auto;
-	background:pink; 
-}
 .navigationDiv{
 	float:left;
 }
 .userImage{
 	width:140px;
 }
-.bodys{
-	margin:30px;
-	padding:30px;
-	border-style:solid;
-}
+
 .personalFormDiv{
 	margin-top: 30px;
 	margin-left:56px;
@@ -40,9 +30,9 @@
 </style>
 </head>
 <body>
-	<!-- 引入顶部导航栏 -->
-	<div th:replace="navigation :: html"></div>
 	<div class="bodys">
+		<!-- 引入左侧导航栏 -->
+		<div th:replace="personalLeftNav :: html"></div>
 		<!-- 引入个人资料侧边栏 -->
 		<div class="navigationDiv" th:replace="personal :: personalNavigation"></div>
 		<div class="personalMessage">

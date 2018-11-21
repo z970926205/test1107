@@ -67,4 +67,26 @@ public class PersonalServiceImpl implements PersonalService{
 		return page;
 	}
 
+	@Override
+	public Page<Void> updatePersonalFace(PersonalEntity entity) {
+		logger.info("entity:" + entity.toString());
+		Page<Void> page;
+		try {
+			if(personalMapper.updateUser(entity) == 1){
+				if(baseController.updateSessionUser(entity.getId())){
+					page = new Page<Void>(0, "success");
+				}else{
+					page = new Page<Void>(1, "session更新用户异常");
+				}
+			}else{
+				page = new Page<Void>(2, "sql异常");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			page = new Page<Void>(3, "系统异常");
+			logger.info("error");
+		}
+		return page;
+	}
+
 }
