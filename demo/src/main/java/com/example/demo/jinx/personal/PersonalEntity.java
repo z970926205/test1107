@@ -4,6 +4,7 @@ public class PersonalEntity {
 	private Integer id;
 	private String userName;
 	private String password;
+	private String newPassword;
 	private String userImage;
 	private String sex;
 	private String phone;
@@ -85,13 +86,19 @@ public class PersonalEntity {
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
 	}
+	public String getNewPassword() {
+		return newPassword;
+	}
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
 	@Override
 	public String toString() {
 		return "PersonalEntity [id=" + id + ", userName=" + userName
-				+ ", password=" + password + ", userImage=" + userImage
-				+ ", sex=" + sex + ", phone=" + phone + ", email=" + email
-				+ ", birthday=" + birthday + ", mender=" + mender
-				+ ", updateDate=" + updateDate + ", creator=" + creator
-				+ ", createDate=" + createDate + "]";
+				+ ", password=" + password + ", newPassword=" + newPassword
+				+ ", userImage=" + userImage + ", sex=" + sex + ", phone="
+				+ phone + ", email=" + email + ", birthday=" + birthday
+				+ ", mender=" + mender + ", updateDate=" + updateDate
+				+ ", creator=" + creator + ", createDate=" + createDate + "]";
 	}
 }

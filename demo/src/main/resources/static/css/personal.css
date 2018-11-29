@@ -4,8 +4,23 @@
 	border-style:solid;
 	height:300px;
 	width:400px;
-	margin-top:6px;
 	top:100px;
 	left:500px;
 	padding-top:20px;
+}
+
+.formInput{
+	left:54px;
+	margin-bottom:10px;
+	height:30px;
+	width:200px;
+}
+.formText{
+	left:135px;
+}
+
+.formBut{
+	margin-top:10px;
+	width:80px;
+	height:30px;
 }

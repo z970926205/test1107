@@ -12,7 +12,8 @@
 <body>
 	<div class="liftNavigationDiv" th:fragment="navigation">
 		<ul>
-			<li><p class="liP" id="message">今天真是个好天气!!!</p></li>
+			<li><p class="liP" id="message"
+					th:text="${request.message}?${request.message}:今天真是个好天气!!!">今天真是个好天气!!!</p></li>
 			<li>
 				<img id="indexImg" class="indexImg" alt="主页" th:src="@{/image/indexImg.jpg}"/>
 			</li>
@@ -23,20 +24,21 @@
 					th:if="${not #lists.isEmpty(session.user)}">用户名</a>
 				<ul id="userLiUl" class="userLiUlNone">
 					<li>
-						<a th:href="@{personal/showPersonal}" >个人资料</a>
+						<a th:href="@{/personal/showPersonal}" >个人资料</a>
 					</li>
 					<li>
 						<a id="exitUser" 
-							th:href="@{exitUser}">注销</a>
+							th:href="@{/exitUser}">注销</a>
 					</li>
 				</ul>	
 			</li>
-			<li><a th:href="@{Login/showLogin}"
+			<li><a th:href="@{/Login/showLogin}"
 					th:if="${#lists.isEmpty(session.user)}">登陆</a></li>
-			<li><a th:href="@{Register/showRegister}"
+			<li><a th:href="@{/Register/showRegister}"
 					th:if="${#lists.isEmpty(session.user)}">注册</a></li>
-			<li><a th:href="@{Login/showLogin}">主页</a></li>
-			<li><a th:href="@{Login/showLogin}">关于</a></li>
+			<li><a th:href="@{/Login/showLogin}">文章</a></li>
+			<li><a th:href="@{/Login/showLogin}">问答</a></li>
+			<li><a th:href="@{/file/fileUpload}">上传文件</a></li>
 		</ul>
 	</div>
 </body>

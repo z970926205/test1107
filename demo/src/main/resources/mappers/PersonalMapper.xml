@@ -16,7 +16,7 @@
 				sex=#{sex}
 			</if>
 			<if test="phone != null">
-				phone=#{phone},
+				phone=#{phone}
 			</if>
 			<if test="email != null">
 				email=#{email}
@@ -27,11 +27,9 @@
 			<if test="userImage != null">
 				userImage=#{userImage}
 			</if>
-			<!-- userName=#{userName}, 
-			sex=#{sex},
-			phone=#{phone},
-			email=#{email},
-			birthday=#{birthday} -->
+			<if test="newPassword != null">
+				password=#{newPassword}
+			</if>
 		where
 			id=#{id}
 	</update>

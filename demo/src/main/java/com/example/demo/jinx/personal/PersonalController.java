@@ -40,6 +40,32 @@ public class PersonalController {
 		return "updatePersonalPassword";
 	}
 
+	// 修改密码页面
+	@RequestMapping(value = "updatePersonalPassword", method = RequestMethod.POST)
+	@ResponseBody
+	public Page<Void> updatePersonalPassword(Integer id,String oldPassword, String newPassword) {
+		logger.info("oldPassword:" + oldPassword + " newPassword:" + newPassword+" id:"+id);
+		Page<Void> page;
+		PersonalEntity entity;
+		try {
+			if (Utils.checkStrings(oldPassword,newPassword) && Utils.isNulls(id)) {
+				entity = new PersonalEntity();
+				entity.setId(id);
+				entity.setPassword(oldPassword);
+				entity.setNewPassword(newPassword);
+				page = personalService.updatePersonalPassword(entity);
+			} else {
+				page = new Page<Void>(1, "参数异常");
+				logger.info("error");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			page = new Page<Void>(1, "系统异常");
+			logger.info("error");
+		}
+		return page;
+	}
+
 	// 修改头像页面
 	@RequestMapping(value = "updatePersonalFace", method = RequestMethod.POST)
 	@ResponseBody
@@ -52,7 +78,7 @@ public class PersonalController {
 				entity = new PersonalEntity();
 				entity.setId(id);
 				entity.setUserImage(userFace);
-				page = personalService.updatePersonalFace(entity);
+				page = personalService.updatePersonal(entity);
 			} else {
 				page = new Page<Void>(1, "参数异常");
 				logger.info("error");

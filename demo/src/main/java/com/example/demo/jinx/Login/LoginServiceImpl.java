@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.jinx.general.BaseController;
 import com.example.demo.jinx.general.Utils;
+import com.example.demo.jinx.singleUser.SingleUserController;
+import com.example.demo.jinx.singleUser.SingleUserEntity;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -15,6 +17,8 @@ public class LoginServiceImpl implements LoginService {
 	private LoginMapper loginMapper;
 	@Autowired
 	private BaseController baseController;
+	@Autowired
+	private SingleUserController singleUserController;
 
 	@Override
 	public Page<Void> checkUserName(String userName) {
@@ -53,6 +57,9 @@ public class LoginServiceImpl implements LoginService {
 				//密码加密
 				if ((returnEntity.getPassword()).equals(
 						Utils.stringMD5(entity.getPassword()))) {
+					//设置登陆时间防止重复登录
+					int singleUserId = singleUserController.setSingleUser(returnEntity.getId());
+					String registerDate = singleUserController.getSingleUser(singleUserId).getRegisterDate();
 					if(baseController.setSessionUser(returnEntity.getId())){
 						page = new Page<Void>(0, "登陆成功");
 					}else{
