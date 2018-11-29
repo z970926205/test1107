@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servlets.xml>
+	<servlet url="/myweb/reg" class="com.webserver.servlet.RegServlet"/>
+	<servlet url="/myweb/login" class="com.webserver.servlet.LoginServlet"/>
+	<servlet url="/myweb/showAllUser" class="com.webserver.servlet.ShowAllUserServlet"/>
+	<servlet url="/webbasic/day08/login" class="com.webserver.servlet.LoginServlet2"/>
+</servlets.xml>
