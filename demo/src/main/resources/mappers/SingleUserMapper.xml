@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+	<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+		"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 只有接口声明：namespace值必须和接口名相同 -->
+<mapper namespace="com.example.demo.jinx.singleUser.SingleUserMapper">
+
+	<!-- public SingleUserEntity getSingleUser(Integer id); -->
+	<select id="getSingleUser" resultMap="singleUserMap">
+		select 
+			*
+		from 
+			singleuser 
+		where
+			userid=#{id}
+	</select>
+	
+	<!-- public Integer setSingleUser(Integer id); -->
+	<insert id="setSingleUser" parameterType="com.example.demo.jinx.singleUser.SingleUserEntity">
+		insert into singleuser 
+		values(
+			null,
+			#{id},
+			NOW())
+	</insert>
+	
+	<resultMap type="com.example.demo.jinx.singleUser.SingleUserEntity" id="singleUserMap">
+		<id 	property="id" 			column="id"/>
+		<result property="userId" 		column="userid"/>
+		<result property="registerDate" 	column="registerdate"/>
+	</resultMap>  
+	
+</mapper>
+	
+	
+	
+	
+	
+	
+	
+	
+	

@@ -14,37 +14,32 @@ import com.example.demo.jinx.general.BaseController;
 import com.example.demo.jinx.general.BaseEntity;
 import com.example.demo.jinx.singleUser.SingleUserController;
 import com.example.demo.jinx.singleUser.SingleUserEntity;
+
 @Component
-public class RegisterInterceptor implements HandlerInterceptor{
-	private static final Log logger = LogFactory.getLog(RegisterInterceptor.class);
-	@Autowired
-	private BaseController baseController;
+public class singleUserInterceptor implements HandlerInterceptor {
+	private static final Log logger = LogFactory
+			.getLog(singleUserInterceptor.class);
 	@Autowired
 	private SingleUserController singleUserController;
+	@Autowired
+	private BaseController baseController;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		logger.info("");
-		BaseEntity baseEntity = baseController.getSessionUser();
-		if(baseEntity!=null){
-			logger.info("sessoin验证通过");
-		}
-		
 		String registerDate = baseController.getSingleUserDate();
+		int userId = baseController.getSessionUser().getId();
 		if(registerDate != null){
-			if(registerDate.equals(singleUserController.getSingleUser(baseEntity.getId()))){
+			if(registerDate.equals(singleUserController.getSingleUser(userId))){
 				return true;
 			}else{
 				baseController.DeleteSessionUser();
-				baseController.DelSingleUserDate();
-				request.setAttribute("message", "账号被异地使用,请修改密码或重新登录!");
 			}
 		}
-		
 		logger.info("sessoin验证未通过");
-		logger.info("验证不通过转发至:"+request.getContextPath());
-		request.getRequestDispatcher(request.getContextPath()+"/").forward(request, response);
+		logger.info("验证不通过跳转至:" + request.getContextPath());
+		response.sendRedirect(request.getContextPath() + "/");
 		return false;
 	}
 
@@ -53,7 +48,7 @@ public class RegisterInterceptor implements HandlerInterceptor{
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -61,7 +56,7 @@ public class RegisterInterceptor implements HandlerInterceptor{
 			HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

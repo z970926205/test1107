@@ -3,18 +3,55 @@
 <head>
 <meta charset="UTF-8" />
 <title>register</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/base.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/navigation.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/leftNavigation.css}" />
+
 </head>
 <style>
-
+.loginDiv{
+	width:370px;
+	height:180px;
+	border-style:solid;
+	margin:6px auto;
+	padding-top:35px;
+	padding-left:30px;
+	position:relative;
+	background:pink; 
+	top:100px;
+}
+.formInput{
+	position:absolute;
+	left:130px;
+	margin-top:-25px;
+}
+.formText{
+}
+.formBut{
+	margin-top:50px;
+	margin-left:150px;
+}
+.userNameP{
+	margin-top:5px;
+}
 </style>
 <body>
 	<h1 id="message">今天真是个好天气!!!</h1>
-	<div id="registerDiv">
-		<form action="" id="registerForm">
-			<input type="text" id="userName" name="userName"/><br/>
-			<input type="text" id="password" name="password"/><br/>
-			<input type="button" id="registerBut" value="登陆"/>
-		</form>
+	<div id="bodys">
+		<!-- 引入左侧导航栏 -->
+		<div th:replace="leftNavigation :: html"></div>
+		<div class="loginDiv">
+			<form action="" id="registerForm">
+					<p class="formText userNameP">用户名</p>
+					<!-- <span class="formText">用户名</span> -->
+					<input class="formInput" type="text" id="userName" name="userName" /><br/> 
+					<p class="formText">密码</p>
+					<!-- <span class="formText">密码</span> -->
+					<input class="formInput" type="text" id="password" name="password" /><br/>
+					<input class="formBut" type="button" id="registerBut" value="登陆" />
+			</form>
+		</div>
 	</div>
 </body>
 <script th:src="@{/js/jquery-1.10.2.min.js}" type="text/javascript"></script>
