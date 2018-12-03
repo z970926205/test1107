@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+	<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+		"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- 只有接口声明：namespace值必须和接口名相同 -->
+<mapper namespace="xinsheng.register.RegisterMapper">
+	<!-- public Integer setUser(RegisterEntity user); -->
+	<insert id="setUser" parameterType="xinsheng.register.RegisterEntity" 
+		useGeneratedKeys="true" keyProperty="id">
+		insert into 
+			user 
+		values(
+			null,
+			#{nickName},
+			#{phone},
+			#{password},
+			#{portrait},
+			#{sex},
+			#{email},
+			#{qq},
+			#{weixin},
+			#{xlvb},
+			#{status},
+			#{creator},
+			#{createDate},
+			#{mender},
+			#{updateDate});
+	</insert>
+	
+	<!-- public RegisterEntity getUser(Integer id); -->
+	<select id="getUser" resultMap="registerMap">
+		select 
+			*
+		from 
+			user 
+		where
+			phone=#{phone}
+	</select>
+	
+	<resultMap type="xinsheng.register.RegisterEntity" id="registerMap">
+		<id 	property="id" 		column="id"/>
+		<result property="nickName" column="username"/>
+		<result property="phone" column="phone"/>
+		<result property="password" column="password"/>
+		<result property="portrait" column="portrait"/>
+		<result property="sex" column="sex"/>
+		<result property="email" column="email"/>
+		<result property="qq" column="qq"/>
+		<result property="weixin" column="weixin"/>
+		<result property="xlvb" column="xlvb"/>
+		<result property="status" column="status"/>
+		<result property="creator" column="creator"/>
+		<result property="createDate" column="createDate"/>
+		<result property="mender" column="mender"/>
+		<result property="updateDate" column="updatedate"/>
+		<!-- <result property="birthday" column="birthday"/> -->
+	</resultMap>  
+	
+</mapper>
+	
+	
+	
+	
+	
+	
+	
+	
+	

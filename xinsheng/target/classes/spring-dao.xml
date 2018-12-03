@@ -38,7 +38,7 @@
 	<!-- mybatis.spring整合扫描mapper接口 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" 
-			value="xinsheng.*"></property>
+			value="xinsheng.**.**"></property>
 	</bean>
 	
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean">

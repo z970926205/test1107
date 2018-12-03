@@ -1,5 +1,10 @@
 package xinsheng.register;
 
 public interface RegisterService {
-	public Integer insertUser(registerEntity user);
+	/**
+	 * 添加新用户
+	 * @param user
+	 * @return
+	 */
+	public ResponseResult<String> insertUser(RegisterEntity user);
 }

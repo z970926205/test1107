@@ -1,6 +1,7 @@
 package xinsheng.register;
 
 public interface RegisterMapper {
-	public int setUser(registerEntity user);
+	public Integer setUser(RegisterEntity user);
+	public RegisterEntity getUser(Integer id);
 
 }
