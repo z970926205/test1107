@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
  * @author GP
  *
  */
-@Service
 public class BaseServiceImpl implements BaseService{
 	private static final Log logger = LogFactory.getLog(BaseServiceImpl.class);
 	

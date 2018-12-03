@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
  * @author GP
  *
  */
-@Controller
 public class BaseController {
 	// private static final Log logger = LogFactory.getLog(.class);
 	private final Logger logger =Logger.getLogger(this.getClass());
