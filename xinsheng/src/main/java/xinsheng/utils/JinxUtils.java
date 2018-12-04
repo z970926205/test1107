@@ -14,6 +14,9 @@ import java.text.SimpleDateFormat;
 import io.jsonwebtoken.*;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 @Component
 public class JinxUtils {
 	private static final Logger logger =Logger.getLogger(JinxUtils.class);
@@ -32,6 +35,8 @@ public class JinxUtils {
 	 * jwt有效期
 	 */
 	private static final long ttlMillis = 86400000*5;
+	
+	public static final long ONEDAYMILLIS = 86400000;
 	
 	public void main(String[] args) {
 		JinxUtils j = new JinxUtils();
@@ -88,18 +93,24 @@ public class JinxUtils {
 	 * @param jwt 需要验证的token
 	 */
 	//Sample method to validate and read the JWT
-	public void parseJWT(String jwt) {
-	    //This line will throw an exception if it is not a signed JWS (as expected)
-	    Claims claims = Jwts.parser()         
-	       .setSigningKey(DatatypeConverter.parseBase64Binary(flag))
-	       .parseClaimsJws(jwt).getBody();
-	    logger.info("ID: " + claims.getId());
-	    logger.info("Subject: " + claims.getSubject());
-	    logger.info("Issuer: " + claims.getIssuer());
-	    logger.info("Expiration: " + claims.getExpiration());
-	    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	   String r = simpleDateFormat.format(claims.getExpiration());
-	   logger.info(r);
+	public Claims parseJWT(String jwt) {
+		Claims returnC = null;
+	    try {
+	    	//This line will throw an exception if it is not a signed JWS (as expected)
+		    Claims claims = Jwts.parser()         
+		       .setSigningKey(DatatypeConverter.parseBase64Binary(flag))
+		       .parseClaimsJws(jwt).getBody();
+		    logger.info("ID: " + claims.getId());
+		    logger.info("Subject: " + claims.getSubject());
+		    logger.info("Issuer: " + claims.getIssuer());
+		    logger.info("Expiration: " + claims.getExpiration());
+		    formatDateToDay(claims.getExpiration());
+		    Map<String, String> tokenMap = new HashMap<String, String>();
+		    returnC = claims;
+		} catch (Exception e) {
+			logger.error(e);
+		}
+	    return returnC;
 	}
 	/**
 	 * 把毫秒数转换为天数
@@ -110,24 +121,29 @@ public class JinxUtils {
 		   String r = simpleDateFormat.format(ttlMillis);
 		   logger.info(r);
 	}
+	/**
+	 * 把Date数转换为天数
+	 * @param ttlMillis 需要转换的毫秒数
+	 */
+	public void formatDateToDay(Date date){
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		   String r = simpleDateFormat.format(date);
+		   logger.info(r);
+	}
 	
 	/**
-	 * 格式化日期
-	 * @param date 
-	 * @return
+	 * Days of difference
+	 * @param date1 big
+	 * @param date2 small
+	 * @return number of days
 	 */
-	public String createDate(Date date){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		return sdf.format(date);
-	}
-	/**
-	 * 格式化日期和时间
-	 * @param date
-	 * @return
-	 */
-	public String createDateAndTime(Date date){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return sdf.format(date);
+	public Integer transformMillistoDay(Date date1,Date date2){
+		logger.info("date1:"+date1+"date2:"+date2);
+		if(date1.before(date2)){
+			return null;
+		}
+		Long mod = date1.getTime() - date2.getTime();
+		return (int)(mod/ONEDAYMILLIS);
 	}
 	
 	/**

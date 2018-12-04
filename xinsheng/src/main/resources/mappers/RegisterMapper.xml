@@ -25,6 +25,15 @@
 			#{updateDate});
 	</insert> 
 	
+	<!-- public Integer setToken(String token); -->
+	<insert id="setUser" useGeneratedKeys="true" keyProperty="id">
+		insert into 
+			token 
+		values(
+			null,
+			#{token});
+	</insert> 
+	
 	<!-- public RegisterEntity getUser(Integer id); -->
 	<select id="getUser" resultMap="registerMap">
 		select 

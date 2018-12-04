@@ -34,7 +34,7 @@ public class RegisterController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(e);
-			new ResponseResult<String>(1,"系统异常");
+			new ResponseResult<String>(1,"SystemException");
 		}
 		return result;
 	}

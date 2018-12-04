@@ -17,6 +17,7 @@ public class RegisterEntity {
 	private Integer mender;
 	private String updateDate;
 	private String token;
+	private String tokenValidity;//token有效期
 	public Integer getId() {
 		return id;
 	}
@@ -112,6 +113,12 @@ public class RegisterEntity {
 	}
 	public void setToken(String token) {
 		this.token = token;
+	}
+	public String getTokenValidity() {
+		return tokenValidity;
+	}
+	public void setTokenValidity(String tokenValidity) {
+		this.tokenValidity = tokenValidity;
 	}
 
 }

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+	<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
+		"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="xinsheng.login.LoginMapper">
+	
+	<!-- public Integer getToken(String token); -->
+	<select id="getToken" >
+		select 
+			id
+		from 
+			token 
+		where
+			token=#{token}
+	</select>
+	
+	<!-- public Integer updateToken(LoginEntity updateTokenEntity); -->
+	<update id="updateToken" parameterType="xinsheng.login.LoginEntity">
+		update 
+			token 
+		set 
+			token=#{newToken}
+		where 
+			id=#{tokenId};
+	</update>
+	
+	
+	<!-- public List<LoginEntity> getUser(Integer id); -->
+	<select id="getUser" resultType="xinsheng.login.LoginEntity">
+		select 
+			id,
+			username as nickName,
+			portrait,
+			sex,
+			status
+		from 
+			user 
+		where
+			id=#{id}
+	</select>
+	
+</mapper>
+	
+	
+	
+	
+	
+	
+	
+	
+	
