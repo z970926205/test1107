@@ -38,14 +38,14 @@
 	<!-- mybatis.spring整合扫描mapper接口 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" 
-			value="xinsheng.**.**"></property>
+			value="xinsheng.register.*Mapper.java"></property>
 	</bean>
 	
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" 
 			ref="dataSource"></property>
 		<property name="mapperLocations" 
-			value="classpath:mappers/*.xml"></property>
+			value="classpath:mappers/*Mapper.xml"></property>
 	</bean>
 	
 </beans>

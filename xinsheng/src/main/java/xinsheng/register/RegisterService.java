@@ -2,9 +2,11 @@ package xinsheng.register;
 
 public interface RegisterService {
 	/**
-	 * Ìí¼ÓĞÂÓÃ»§
+	 * æ·»åŠ æ–°ç”¨æˆ·
 	 * @param user
 	 * @return
 	 */
 	public ResponseResult<String> insertUser(RegisterEntity user);
+
+	public String test();
 }

@@ -1,7 +1,9 @@
 package xinsheng.register;
 
+import java.util.List;
+
 public interface RegisterMapper {
 	public Integer setUser(RegisterEntity user);
-	public RegisterEntity getUser(Integer id);
+	public List<RegisterEntity> getUser(Integer id);
 
 }

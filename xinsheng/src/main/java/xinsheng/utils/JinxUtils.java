@@ -4,6 +4,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.security.MessageDigest;
@@ -13,26 +14,26 @@ import java.text.SimpleDateFormat;
 import io.jsonwebtoken.*;
 
 import java.util.Date;
+@Component
 public class JinxUtils {
 	private static final Logger logger =Logger.getLogger(JinxUtils.class);
 	
 	/**
-	 * jwt¼ÓÃÜÖµ
+	 * jwtåŠ å¯†å€¼
 	 */
-	@Value("${gt.tokenSecret}")
-	private static String flag;
+	@Value("${tokenSecret}")
+	private String flag;
 	/**
-	 * pwd¼ÓÃÜÖµ
+	 * pwdåŠ å¯†å€¼
 	 */
-	@Value("${gt.pwdSecret}")
-	private static String pwdSecret;
+	@Value("${pwdSecret}")
+	private String pwdSecret;
 	/**
-	 * jwtÓĞĞ§ÆÚ
+	 * jwtæœ‰æ•ˆæœŸ
 	 */
-	@Value("${gt.tokenMillis}")
-	private static long ttlMillis;
+	private static final long ttlMillis = 86400000*5;
 	
-	public static void main(String[] args) {
+	public void main(String[] args) {
 		JinxUtils j = new JinxUtils();
 		String id = "3";
 		String issuer = "xiaohua";
@@ -43,30 +44,31 @@ public class JinxUtils {
 	}
 	
 	/**
-	 * ¹¹½¨JWTµÄÊ¾Àı·½·¨
-	 * @param id ÓÃ»§id
-	 * @param issuer ÓÃ»§Ãû
-	 * @param subject ½ÇÉ«
-	 * @param ttlMillis ÓĞĞ§ÆÚ
+	 * æ„å»ºJWTçš„ç¤ºä¾‹æ–¹æ³•
+	 * @param id ç”¨æˆ·id
+	 * @param issuer ç”¨æˆ·å
+	 * @param subject è§’è‰²
+	 * @param ttlMillis æœ‰æ•ˆæœŸ
 	 * @return
 	 */
 	//Sample method to construct a JWT
-	public static String createJWT(String id, String issuer, String subject) {
+	public String createJWT(String id, String issuer, String subject) {
 		logger.info("id:"+id+" issuer:"+issuer+" subject:"+subject+" ttlMillis:"+ttlMillis);
 	    //The JWT signature algorithm we will be using to sign the token
 	    SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 	    long nowMillis = System.currentTimeMillis();
 	    Date now = new Date(nowMillis);
 	    //We will sign our JWT with our ApiKey secret
-	    //ÎÒÃÇ½«ÓÃApiKeyÃÜÔ¿Ç©ÊğJWT
+	    //æˆ‘ä»¬å°†ç”¨ApiKeyå¯†é’¥ç­¾ç½²JWT
 	    //byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(apiKey.getSecret());
+	    logger.info("flag:"+flag);
 	    byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(flag);
 	    Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
 	    //Let's set the JWT Claims
-	    JwtBuilder builder = Jwts.builder().setId(id)//ÓÃ»§id
-	                                .setIssuedAt(now)//Ç©·¢Ê±¼ä
-	                                .setSubject(subject)//½ÇÉ«
-	                                .setIssuer(issuer)//ÓÃ»§ÓÃ
+	    JwtBuilder builder = Jwts.builder().setId(id)//ç”¨æˆ·id
+	                                .setIssuedAt(now)//ç­¾å‘æ—¶é—´
+	                                .setSubject(subject)//è§’è‰²
+	                                .setIssuer(issuer)//ç”¨æˆ·ç”¨
 	                                .signWith(signatureAlgorithm, signingKey);
 	    //if it has been specified, let's add the expiration
 	    if (ttlMillis >= 0) {
@@ -82,11 +84,11 @@ public class JinxUtils {
 	}
 	
 	/**
-	 * ÑéÖ¤ºÍ¶ÁÈ¡JWTµÄÊ¾Àı·½·¨
-	 * @param jwt ĞèÒªÑéÖ¤µÄtoken
+	 * éªŒè¯å’Œè¯»å–JWTçš„ç¤ºä¾‹æ–¹æ³•
+	 * @param jwt éœ€è¦éªŒè¯çš„token
 	 */
 	//Sample method to validate and read the JWT
-	public static void parseJWT(String jwt) {
+	public void parseJWT(String jwt) {
 	    //This line will throw an exception if it is not a signed JWS (as expected)
 	    Claims claims = Jwts.parser()         
 	       .setSigningKey(DatatypeConverter.parseBase64Binary(flag))
@@ -100,68 +102,68 @@ public class JinxUtils {
 	   logger.info(r);
 	}
 	/**
-	 * °ÑºÁÃëÊı×ª»»ÎªÌìÊı
-	 * @param ttlMillis ĞèÒª×ª»»µÄºÁÃëÊı
+	 * æŠŠæ¯«ç§’æ•°è½¬æ¢ä¸ºå¤©æ•°
+	 * @param ttlMillis éœ€è¦è½¬æ¢çš„æ¯«ç§’æ•°
 	 */
-	public static void formatMillisToDay(long ttlMillis){
+	public void formatMillisToDay(long ttlMillis){
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		   String r = simpleDateFormat.format(ttlMillis);
 		   logger.info(r);
 	}
 	
 	/**
-	 * ¸ñÊ½»¯ÈÕÆÚ
+	 * æ ¼å¼åŒ–æ—¥æœŸ
 	 * @param date 
 	 * @return
 	 */
-	public static String createDate(Date date){
+	public String createDate(Date date){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(date);
 	}
 	/**
-	 * ¸ñÊ½»¯ÈÕÆÚºÍÊ±¼ä
+	 * æ ¼å¼åŒ–æ—¥æœŸå’Œæ—¶é—´
 	 * @param date
 	 * @return
 	 */
-	public static String createDateAndTime(Date date){
+	public String createDateAndTime(Date date){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(date);
 	}
 	
 	/**
-	 * ÅĞ¶Ï×Ö·û´®ÊÇ·ñÎªnullÎª""
-	 * ÄÚÈİ½øĞĞtrim´¦Àí
-	 * @param params ĞèÒªÅĞ¶ÏµÄ×Ö·û´®
+	 * åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦ä¸ºnullä¸º""
+	 * å†…å®¹è¿›è¡Œtrimå¤„ç†
+	 * @param params éœ€è¦åˆ¤æ–­çš„å­—ç¬¦ä¸²
 	 * @return
 	 */
-	public static boolean checkStrings(String... params) {//Java ¿É±ä²ÎÊıÁĞ±í
+	public static boolean checkStrings(String... params) {//Java å¯å˜å‚æ•°åˆ—è¡¨
 		logger.info("");
-		if (null == params || params.length == 0) {//ÊıparamsÊÇ±»×÷ÎªÒ»¸öÊı×é¶Ô´ıµÄ
+		if (null == params || params.length == 0) {//æ•°paramsæ˜¯è¢«ä½œä¸ºä¸€ä¸ªæ•°ç»„å¯¹å¾…çš„
             return false;
         }
 		for (String param : params) {
 			if (param == null || "".equals(param.trim())) {
-                return false;//Ö»ÒªÓĞÒ»¸ö²ÎÊı·ûºÏÔò·µ»Øfalse
+                return false;//åªè¦æœ‰ä¸€ä¸ªå‚æ•°ç¬¦åˆåˆ™è¿”å›false
             }
-			//È¥¿Õ
+			//å»ç©º
 			param = param.trim();
         }
 		return true;
 	}
 	
 	/**
-	 * ÅĞ¶Ï¶ÔÏóÊÇ·ñÎª¿Õ
+	 * åˆ¤æ–­å¯¹è±¡æ˜¯å¦ä¸ºç©º
 	 * @param params
 	 * @return
 	 */
 	public static boolean isNulls(Object... params) {
 		logger.info("");
-		if (null == params || params.length == 0) {//ÊıparamsÊÇ±»×÷ÎªÒ»¸öÊı×é¶Ô´ıµÄ
+		if (null == params || params.length == 0) {//æ•°paramsæ˜¯è¢«ä½œä¸ºä¸€ä¸ªæ•°ç»„å¯¹å¾…çš„
             return false;
         }
 		for (Object param : params) {
 			if (param == null) {
-                return false;//Ö»ÒªÓĞÒ»¸ö²ÎÊı·ûºÏÔò·µ»Øfalse
+                return false;//åªè¦æœ‰ä¸€ä¸ªå‚æ•°ç¬¦åˆåˆ™è¿”å›false
             }
         }
 		return true;
@@ -169,49 +171,49 @@ public class JinxUtils {
 	
 	
 	/**
-	 * MD5¼ÓÃÜ
+	 * MD5åŠ å¯†
 	 * @param pwdSecret 
 	 * @param pwd
 	 * @return
 	 */
-	public static String stringMD5(String pwd) {
+	public String stringMD5(String pwd) {
 		logger.info("pwd:"+pwd);
 		try {
-			//ÅĞ¿Õ´¦Àí
+			//åˆ¤ç©ºå¤„ç†
 			if(!checkStrings(pwd)){
 				return null;
 			}
-			//¼ÓÑÎ´¦Àí
+			//åŠ ç›å¤„ç†
 			pwd +=pwdSecret;
-			// ÄÃµ½Ò»¸öMD5×ª»»Æ÷£¨Èç¹ûÏëÒªSHA1²ÎÊı»»³É¡±SHA1¡±£©
+			// æ‹¿åˆ°ä¸€ä¸ªMD5è½¬æ¢å™¨ï¼ˆå¦‚æœæƒ³è¦SHA1å‚æ•°æ¢æˆâ€SHA1â€ï¼‰
 			MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-			// ÊäÈëµÄ×Ö·û´®×ª»»³É×Ö½ÚÊı×é
+			// è¾“å…¥çš„å­—ç¬¦ä¸²è½¬æ¢æˆå­—èŠ‚æ•°ç»„
 			byte[] inputByteArray = pwd.getBytes();
-			// inputByteArrayÊÇÊäÈë×Ö·û´®×ª»»µÃµ½µÄ×Ö½ÚÊı×é
+			// inputByteArrayæ˜¯è¾“å…¥å­—ç¬¦ä¸²è½¬æ¢å¾—åˆ°çš„å­—èŠ‚æ•°ç»„
 			messageDigest.update(inputByteArray);
-			// ×ª»»²¢·µ»Ø½á¹û£¬Ò²ÊÇ×Ö½ÚÊı×é£¬°üº¬16¸öÔªËØ
+			// è½¬æ¢å¹¶è¿”å›ç»“æœï¼Œä¹Ÿæ˜¯å­—èŠ‚æ•°ç»„ï¼ŒåŒ…å«16ä¸ªå…ƒç´ 
 			byte[] resultByteArray = messageDigest.digest();
-			// ×Ö·ûÊı×é×ª»»³É×Ö·û´®·µ»Ø
+			// å­—ç¬¦æ•°ç»„è½¬æ¢æˆå­—ç¬¦ä¸²è¿”å›
 			return byteArrayToHex(resultByteArray);
 		} catch (NoSuchAlgorithmException e) {
 			return null;
 		}
 	}
 
-	// ÏÂÃæÕâ¸öº¯ÊıÓÃÓÚ½«×Ö½ÚÊı×é»»³É³É16½øÖÆµÄ×Ö·û´®
+	// ä¸‹é¢è¿™ä¸ªå‡½æ•°ç”¨äºå°†å­—èŠ‚æ•°ç»„æ¢æˆæˆ16è¿›åˆ¶çš„å­—ç¬¦ä¸²
 	private static String byteArrayToHex(byte[] byteArray) {
-		// Ê×ÏÈ³õÊ¼»¯Ò»¸ö×Ö·ûÊı×é£¬ÓÃÀ´´æ·ÅÃ¿¸ö16½øÖÆ×Ö·û
+		// é¦–å…ˆåˆå§‹åŒ–ä¸€ä¸ªå­—ç¬¦æ•°ç»„ï¼Œç”¨æ¥å­˜æ”¾æ¯ä¸ª16è¿›åˆ¶å­—ç¬¦
 		char[] hexDigits = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 				'A', 'B', 'C', 'D', 'E', 'F' };
-		// newÒ»¸ö×Ö·ûÊı×é£¬Õâ¸ö¾ÍÊÇÓÃÀ´×é³É½á¹û×Ö·û´®µÄ£¨½âÊÍÒ»ÏÂ£ºÒ»¸öbyteÊÇ°ËÎ»¶ş½øÖÆ£¬Ò²¾ÍÊÇ2Î»Ê®Áù½øÖÆ×Ö·û£¨2µÄ8´Î·½µÈÓÚ16µÄ2´Î·½£©£©
+		// newä¸€ä¸ªå­—ç¬¦æ•°ç»„ï¼Œè¿™ä¸ªå°±æ˜¯ç”¨æ¥ç»„æˆç»“æœå­—ç¬¦ä¸²çš„ï¼ˆè§£é‡Šä¸€ä¸‹ï¼šä¸€ä¸ªbyteæ˜¯å…«ä½äºŒè¿›åˆ¶ï¼Œä¹Ÿå°±æ˜¯2ä½åå…­è¿›åˆ¶å­—ç¬¦ï¼ˆ2çš„8æ¬¡æ–¹ç­‰äº16çš„2æ¬¡æ–¹ï¼‰ï¼‰
 		char[] resultCharArray = new char[byteArray.length * 2];
-		// ±éÀú×Ö½ÚÊı×é£¬Í¨¹ıÎ»ÔËËã£¨Î»ÔËËãĞ§ÂÊ¸ß£©£¬×ª»»³É×Ö·û·Åµ½×Ö·ûÊı×éÖĞÈ¥
+		// éå†å­—èŠ‚æ•°ç»„ï¼Œé€šè¿‡ä½è¿ç®—ï¼ˆä½è¿ç®—æ•ˆç‡é«˜ï¼‰ï¼Œè½¬æ¢æˆå­—ç¬¦æ”¾åˆ°å­—ç¬¦æ•°ç»„ä¸­å»
 		int index = 0;
 		for (byte b : byteArray) {
 			resultCharArray[index++] = hexDigits[b >>> 4 & 0xf];
 			resultCharArray[index++] = hexDigits[b & 0xf];
 		}
-		// ×Ö·ûÊı×é×éºÏ³É×Ö·û´®·µ»Ø
+		// å­—ç¬¦æ•°ç»„ç»„åˆæˆå­—ç¬¦ä¸²è¿”å›
 		return new String(resultCharArray);
 	}
 	

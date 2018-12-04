@@ -30,8 +30,17 @@
 	</bean> -->
 	
 	<!-- 读取配置文件数据 -->
-	<util:properties id="gt" 
-		location="classpath:gt.properties"></util:properties>
+	<!-- <util:properties id="gt" 
+		location="classpath:gt.properties"></util:properties> -->
+	
+	<bean id="gt"
+    class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+        <array>
+            <value>classpath:gt.properties</value>
+        </array>
+    </property>
+</bean>
 	
 	<mvc:interceptors>
 		<mvc:interceptor>

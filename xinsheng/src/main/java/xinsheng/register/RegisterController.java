@@ -2,6 +2,7 @@ package xinsheng.register;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -10,11 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import xinsheng.utils.JinxUtils;
 
 @Controller
-@RequestMapping("/register")
 public class RegisterController {
 	private final Logger logger =Logger.getLogger(this.getClass());
 	@Autowired
 	private RegisterService registerService;
+	@Value("${tokenSecret}")
+	private String te11;
 	
 	@RequestMapping(value="/register" ,method=RequestMethod.POST)
 	@ResponseBody
@@ -24,7 +26,7 @@ public class RegisterController {
 		RegisterEntity entity;
 		try {
 			if(!JinxUtils.checkStrings(phone)){
-				new ResponseResult<String>(1,"��Ч�ֻ���");
+				new ResponseResult<String>(1,"无效手机号");
 			}
 			entity = new RegisterEntity();
 			entity.setPhone(phone);
@@ -32,8 +34,14 @@ public class RegisterController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(e);
-			new ResponseResult<String>(1,"ϵͳ�쳣");
+			new ResponseResult<String>(1,"系统异常");
 		}
 		return result;
+	}
+	
+	@RequestMapping(value="/" ,method=RequestMethod.GET)
+	@ResponseBody
+	public String test(){
+		return te11;
 	}
 }

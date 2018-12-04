@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 	<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" 
 		"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<!-- 只有接口声明：namespace值必须和接口名相同 -->
 <mapper namespace="xinsheng.register.RegisterMapper">
 	<!-- public Integer setUser(RegisterEntity user); -->
 	<insert id="setUser" parameterType="xinsheng.register.RegisterEntity" 
@@ -24,7 +23,7 @@
 			#{createDate},
 			#{mender},
 			#{updateDate});
-	</insert>
+	</insert> 
 	
 	<!-- public RegisterEntity getUser(Integer id); -->
 	<select id="getUser" resultMap="registerMap">
@@ -33,7 +32,7 @@
 		from 
 			user 
 		where
-			phone=#{phone}
+			id=#{id}
 	</select>
 	
 	<resultMap type="xinsheng.register.RegisterEntity" id="registerMap">
@@ -52,8 +51,8 @@
 		<result property="createDate" column="createDate"/>
 		<result property="mender" column="mender"/>
 		<result property="updateDate" column="updatedate"/>
-		<!-- <result property="birthday" column="birthday"/> -->
-	</resultMap>  
+		<result property="birthday" column="birthday"/>
+	</resultMap>
 	
 </mapper>
 	
