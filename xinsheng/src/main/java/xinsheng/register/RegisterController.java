@@ -25,12 +25,13 @@ public class RegisterController {
 		ResponseResult<String> result = null;
 		RegisterEntity entity;
 		try {
-			if(!JinxUtils.checkStrings(phone)){
-				new ResponseResult<String>(1,"无效手机号");
+			if(JinxUtils.checkStrings(phone)){
+				entity = new RegisterEntity();
+				entity.setPhone(phone);
+				result = registerService.insertUser(entity);
+			}else{
+				result = new ResponseResult<String>(1,"无效手机号");
 			}
-			entity = new RegisterEntity();
-			entity.setPhone(phone);
-			result = registerService.insertUser(entity);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(e);

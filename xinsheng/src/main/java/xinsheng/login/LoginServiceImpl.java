@@ -28,12 +28,13 @@ public class LoginServiceImpl implements LoginService {
 		ResponseResult<LoginEntity> page = null;
 		Integer pageFalg = null;
 		String message = null;
-		LoginEntity rrEntity = null;
+		LoginEntity rrEntity = null;//need return entity
 		String newToken = null;
-		Integer dbTokenId = null;
+		Integer dbTokenId = null;//old token id
 		try {
-			dbTokenId = LoginMapper.getToken(token);
+			dbTokenId = LoginMapper.getToken(token).getTokenId();
 			if (dbTokenId > 0) {
+				logger.info("token is exist");
 				Claims tokenClaims = utils.parseJWT(token);
 				if (tokenClaims != null) {
 					Date nowDate = new Date();

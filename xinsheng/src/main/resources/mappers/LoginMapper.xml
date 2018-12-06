@@ -4,9 +4,9 @@
 <mapper namespace="xinsheng.login.LoginMapper">
 	
 	<!-- public Integer getToken(String token); -->
-	<select id="getToken" >
+	<select id="getToken" resultType="xinsheng.login.LoginEntity">
 		select 
-			id
+			id as tokenId
 		from 
 			token 
 		where
@@ -15,7 +15,7 @@
 	
 	<!-- public Integer updateToken(LoginEntity updateTokenEntity); -->
 	<update id="updateToken" parameterType="xinsheng.login.LoginEntity">
-		update 
+		update
 			token 
 		set 
 			token=#{newToken}
@@ -27,8 +27,8 @@
 	<!-- public List<LoginEntity> getUser(Integer id); -->
 	<select id="getUser" resultType="xinsheng.login.LoginEntity">
 		select 
-			id,
-			username as nickName,
+			id as userId,
+			nickname as nickName,
 			portrait,
 			sex,
 			status

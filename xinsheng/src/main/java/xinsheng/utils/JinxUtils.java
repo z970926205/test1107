@@ -147,9 +147,9 @@ public class JinxUtils {
 	}
 	
 	/**
-	 * 判断字符串是否为null为""
-	 * 内容进行trim处理
-	 * @param params 需要判断的字符串
+	 * Determine if the string is null""
+	 * Content needs to be trim processed by itself
+	 * @param params The string to judge
 	 * @return
 	 */
 	public static boolean checkStrings(String... params) {//Java 可变参数列表
@@ -161,8 +161,6 @@ public class JinxUtils {
 			if (param == null || "".equals(param.trim())) {
                 return false;//只要有一个参数符合则返回false
             }
-			//去空
-			param = param.trim();
         }
 		return true;
 	}

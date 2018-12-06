@@ -21,10 +21,9 @@ public class LoginController {
 	public ResponseResult<LoginEntity> insertUser(String token){
 		logger.info("token:"+token);
 		ResponseResult<LoginEntity> result = null;
-		LoginEntity entity;
 		try {
 			if(JinxUtils.checkStrings(token)){
-				result = LoginService.login(token);
+				result = LoginService.login(token.trim());
 			}else{
 				new ResponseResult<String>(1,"Token is invalid");
 			}

@@ -26,7 +26,7 @@
 	</insert> 
 	
 	<!-- public Integer setToken(String token); -->
-	<insert id="setUser" useGeneratedKeys="true" keyProperty="id">
+	<insert id="setToken" useGeneratedKeys="true" keyProperty="id">
 		insert into 
 			token 
 		values(
