@@ -45,38 +45,50 @@ public class LoginServiceImpl implements LoginService {
 		}
 		return page;
 	}
-
+	
 	@Override
 	public Page<Void> login(LoginEntity entity) {
 		logger.info("entity:" + entity.toString());
 		Page<Void> page;
 		LoginEntity returnEntity;
+		SingleUserEntity singleUserEntity;
+		String message = null;
+		Integer flag = 1;
 		try {
 			returnEntity = loginMapper.getUser(entity);
 			if (returnEntity != null) {
-				//密码加密
-				if ((returnEntity.getPassword()).equals(
-						Utils.stringMD5(entity.getPassword()))) {
-					//设置登陆时间防止重复登录
-					int singleUserId = singleUserController.setSingleUser(returnEntity.getId());
-					String registerDate = singleUserController.getSingleUser(singleUserId).getRegisterDate();
-					if(baseController.setSessionUser(returnEntity.getId())){
-						page = new Page<Void>(0, "登陆成功");
-					}else{
-						logger.info("session设置登录用户异常");
-						throw new RuntimeException();
+				// Password encryption
+				if ((returnEntity.getPassword()).equals(Utils.stringMD5(entity
+						.getPassword()))) {
+					// Set login time to prevent double login
+					singleUserEntity = singleUserController
+							.setSingleUser(returnEntity.getId());
+					if (singleUserEntity != null) {
+						String registerDate = singleUserEntity
+								.getRegisterDate();
+						if (baseController.setSessionUser(returnEntity.getId())
+								&& baseController
+										.setSingleUserDate(registerDate)) {
+							flag = 0;
+							message = "suesses";
+						} else {
+							message = "Session setting login user exception";
+						}
+					} else {
+						message = "Set logon information exception";
 					}
 				} else {
-					page = new Page<Void>(1, "密码错误");
+					message = "wrong password";
 				}
 			} else {
-				page = new Page<Void>(1, "用户名不存在");
+				message = "Username does not exist";
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			page = new Page<Void>(3, "系统异常");
-			logger.info("error");
+			logger.error(e);
 		}
+		logger.info(message);
+		page = new Page<Void>(flag, message);
 		return page;
 	}
 

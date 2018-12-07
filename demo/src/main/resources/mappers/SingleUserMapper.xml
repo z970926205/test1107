@@ -11,17 +11,27 @@
 		from 
 			singleuser 
 		where
-			userid=#{id}
+			id=#{id}
 	</select>
 	
-	<!-- public Integer setSingleUser(Integer id); -->
-	<insert id="setSingleUser" parameterType="com.example.demo.jinx.singleUser.SingleUserEntity">
-		insert into singleuser 
-		values(
+	<!-- public Integer setSingleUser(SingleUserEntity entity); -->
+	<insert id="setSingleUser" parameterType="com.example.demo.jinx.singleUser.SingleUserEntity"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO singleuser 
+		VALUES (
 			null,
-			#{id},
-			NOW())
+			#{userId},
+			NOW()
+		)ON DUPLICATE KEY UPDATE 
+		registerdate=NOW();  
 	</insert>
+	<!-- public Integer DelSingleUser(String registerDate); -->
+	<delete id="DelSingleUser">
+		DELETE FROM 
+			singleuser 
+		WHERE 
+			registerdate=#{registerDate}
+	</delete>
 	
 	<resultMap type="com.example.demo.jinx.singleUser.SingleUserEntity" id="singleUserMap">
 		<id 	property="id" 			column="id"/>

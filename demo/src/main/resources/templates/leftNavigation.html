@@ -13,7 +13,7 @@
 	<div class="liftNavigationDiv" th:fragment="navigation">
 		<ul>
 			<li><p class="liP" id="message"
-					th:text="${request.message}?${request.message}:今天真是个好天气!!!">今天真是个好天气!!!</p></li>
+					th:text="${message}?${message}:'今天真是个好天气!!!'">今天真是个好天气!!!</p></li>
 			<li>
 				<img id="indexImg" class="indexImg" alt="主页" th:src="@{/image/indexImg.jpg}"/>
 			</li>

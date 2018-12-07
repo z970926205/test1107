@@ -1,14 +1,36 @@
 package com.example.demo.jinx.general;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class Utils {
 	private static final Log logger = LogFactory.getLog(Utils.class); 
+	
+	/**
+	 * jwt加密值
+	 */
+	private String flag = "ABC123987#";
+	/**
+	 * jwt有效期
+	 */
+	private static final long ttlMillis = 86400000*5;
+	
+	
+	
 	public static boolean checkStrings(String... params) {//Java 可变参数列表
 		logger.info("");
 		if (null == params || params.length == 0) {//数params是被作为一个数组对待的
@@ -84,4 +106,94 @@ public class Utils {
 		// 字符数组组合成字符串返回
 		return new String(resultCharArray);
 	}
+	
+
+	/**
+	 * 构建JWT的示例方法
+	 * @param id 用户id
+	 * @param issuer 用户名
+	 * @param subject 角色
+	 * @param ttlMillis 有效期
+	 * @return
+	 */
+	//Sample method to construct a JWT
+	public String createJWT(String id, String issuer, String subject) {
+		logger.info("id:"+id+" issuer:"+issuer+" subject:"+subject+" ttlMillis:"+ttlMillis);
+	    //The JWT signature algorithm we will be using to sign the token
+	    SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+	    long nowMillis = System.currentTimeMillis();
+	    Date now = new Date(nowMillis);
+	    //We will sign our JWT with our ApiKey secret
+	    //我们将用ApiKey密钥签署JWT
+	    //byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(apiKey.getSecret());
+	    logger.info("flag:"+flag);
+	    byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(flag);
+	    Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+	    //Let's set the JWT Claims
+	    JwtBuilder builder = Jwts.builder().setId(id)//用户id
+	                                .setIssuedAt(now)//签发时间
+	                                .setSubject(subject)//角色
+	                                .setIssuer(issuer)//用户用
+	                                .signWith(signatureAlgorithm, signingKey);
+	    //if it has been specified, let's add the expiration
+	    if (ttlMillis >= 0) {
+	    long expMillis = nowMillis + ttlMillis;
+	    formatMillisToDay(expMillis);
+	        Date exp = new Date(expMillis);
+	        builder.setExpiration(exp);
+	    }
+	 
+	    //Builds the JWT and serializes it to a compact, URL-safe string
+	    logger.info("token:"+builder.compact());
+	    return builder.compact();
+	}
+	
+	/**
+	 * 验证和读取JWT的示例方法
+	 * @param jwt 需要验证的token
+	 */
+	//Sample method to validate and read the JWT
+	public void parseJWT(String jwt) {
+	    //This line will throw an exception if it is not a signed JWS (as expected)
+	    Claims claims = Jwts.parser()         
+	       .setSigningKey(DatatypeConverter.parseBase64Binary(flag))
+	       .parseClaimsJws(jwt).getBody();
+	    logger.info("ID: " + claims.getId());
+	    logger.info("Subject: " + claims.getSubject());
+	    logger.info("Issuer: " + claims.getIssuer());
+	    logger.info("Expiration: " + claims.getExpiration());
+	    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	   String r = simpleDateFormat.format(claims.getExpiration());
+	   logger.info(r);
+	}
+	/**
+	 * 把毫秒数转换为天数
+	 * @param ttlMillis 需要转换的毫秒数
+	 */
+	public void formatMillisToDay(long ttlMillis){
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		   String r = simpleDateFormat.format(ttlMillis);
+		   logger.info(r);
+	}
+	
+	/**
+	 * 格式化日期
+	 * @param date 
+	 * @return
+	 */
+	public String createDate(Date date){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(date);
+	}
+	/**
+	 * 格式化日期和时间
+	 * @param date
+	 * @return
+	 */
+	public String createDateAndTime(Date date){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(date);
+	}
+	
+
 }

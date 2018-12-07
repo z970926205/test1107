@@ -48,12 +48,3 @@
 		<result property="createDate" column="createdate"/>
 	</resultMap>  
 </mapper>
-	
-	
-	
-	
-	
-	
-	
-	
-	

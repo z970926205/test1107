@@ -7,13 +7,14 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class SingleUserController {
-	private static final Log logger = LogFactory.getLog(SingleUserController.class);
-	
+	private static final Log logger = LogFactory
+			.getLog(SingleUserController.class);
+
 	@Autowired
 	private SingleUserService singleUserService;
-	
-	public SingleUserEntity getSingleUser(Integer id){
-		logger.info("id;"+id);
+
+	public SingleUserEntity getSingleUser(Integer id) {
+		logger.info("id;" + id);
 		try {
 			return singleUserService.getSingleUser(id);
 		} catch (Exception e) {
@@ -22,12 +23,32 @@ public class SingleUserController {
 		}
 		return null;
 	}
-	
-	public Integer setSingleUser(Integer id) {
+
+	/**
+	 * 
+	 * @param userId
+	 * @return SingleUser
+	 */
+	public SingleUserEntity setSingleUser(Integer userId) {
+		logger.info("userId:" + userId);
 		try {
-			return singleUserService.setSingleUser(id);
+			if (userId != null) {
+				return singleUserService.setSingleUser(userId);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error("error");
+		}
+		return null;
+	}
+
+	public Integer DelSingleUser(String registerDate) {
+		logger.info("registerDate:" + registerDate);
+		try {
+			return singleUserService.DelSingleUser(registerDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error("error");
 		}
 		return null;
 	}
