@@ -4,14 +4,20 @@
 <!-- 只有接口声明：namespace值必须和接口名相同 -->
 <mapper namespace="com.example.demo.jinx.singleUser.SingleUserMapper">
 
-	<!-- public SingleUserEntity getSingleUser(Integer id); -->
+	<!-- public SingleUserEntity getSingleUser(SingleUserEntity entity); -->
 	<select id="getSingleUser" resultMap="singleUserMap">
 		select 
 			*
 		from 
 			singleuser 
-		where
-			id=#{id}
+		<where>
+			<if test="id != null">
+				id=#{id}
+			</if>
+			<if test="userId != null">
+				userid=#{userId}
+			</if>
+		</where>	
 	</select>
 	
 	<!-- public Integer setSingleUser(SingleUserEntity entity); -->

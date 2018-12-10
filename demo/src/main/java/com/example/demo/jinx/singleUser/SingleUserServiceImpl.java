@@ -11,10 +11,10 @@ public class SingleUserServiceImpl implements SingleUserService{
 	@Autowired
 	private SingleUserMapper singleUserMapper;
 	@Override
-	public SingleUserEntity getSingleUser(Integer id) {
-		logger.info("id:"+id);
+	public SingleUserEntity getSingleUser(SingleUserEntity entity) {
+		logger.info("entity:"+entity.toString());
 		try {
-			return singleUserMapper.getSingleUser(id);
+			return singleUserMapper.getSingleUser(entity);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("error");
@@ -29,7 +29,9 @@ public class SingleUserServiceImpl implements SingleUserService{
 			singleUser = new SingleUserEntity();
 			singleUser.setUserId(userId);
 			singleUserMapper.setSingleUser(singleUser);
-			returnEntity = singleUserMapper.getSingleUser(singleUser.getId());
+			SingleUserEntity getSingleUserEntity = new SingleUserEntity();
+			getSingleUserEntity.setId(singleUser.getId());
+			returnEntity = singleUserMapper.getSingleUser(getSingleUserEntity);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(e);

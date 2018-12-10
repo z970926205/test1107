@@ -24,7 +24,7 @@ public class DemoApplicationTests {
     public void findByCategoryType() throws Exception {
     	LoginEntity entity = new LoginEntity();
     	entity.setUserName("xiaohua");
-    	logger.info("我来了");
+    	logger.info("I am coming");
     	LoginEntity entity1=loginMapper.getUser(entity);
         System.out.println(entity1.getCount());
     }

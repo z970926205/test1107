@@ -13,10 +13,12 @@ public class SingleUserController {
 	@Autowired
 	private SingleUserService singleUserService;
 
-	public SingleUserEntity getSingleUser(Integer id) {
-		logger.info("id;" + id);
+	public SingleUserEntity getSingleUser(Integer userId) {
+		logger.info("userId;" + userId);
 		try {
-			return singleUserService.getSingleUser(id);
+			SingleUserEntity getSingleUserEntity = new SingleUserEntity();
+			getSingleUserEntity.setUserId(userId);
+			return singleUserService.getSingleUser(getSingleUserEntity);
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("error");

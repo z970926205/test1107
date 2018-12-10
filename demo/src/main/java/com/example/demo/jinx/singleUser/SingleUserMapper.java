@@ -4,9 +4,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface SingleUserMapper {
-	public SingleUserEntity getSingleUser(Integer id);
+	public SingleUserEntity getSingleUser(SingleUserEntity entity);
 	/**
-	 * 存在则更新不存在则插入
+	 * If the update does not exist, it will be inserted
 	 * @param id
 	 * @return
 	 */

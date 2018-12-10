@@ -33,6 +33,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<!-- It includes spring-boot-starter-logging -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
@@ -49,7 +50,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- 验证码 -->
 		<dependency>
 			<groupId>com.github.penggle</groupId>

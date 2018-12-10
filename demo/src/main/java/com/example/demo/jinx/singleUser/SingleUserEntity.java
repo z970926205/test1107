@@ -23,4 +23,10 @@ public class SingleUserEntity {
 	public void setRegisterDate(String registerDate) {
 		this.registerDate = registerDate;
 	}
+	@Override
+	public String toString() {
+		return "SingleUserEntity [id=" + id + ", userId=" + userId
+				+ ", registerDate=" + registerDate + "]";
+	}
+	
 }
