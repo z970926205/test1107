@@ -16,6 +16,25 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`springboott1105` /*!40100 DEFAULT CHARA
 
 USE `springboott1105`;
 
+/*Table structure for table `singleuser` */
+
+DROP TABLE IF EXISTS `singleuser`;
+
+CREATE TABLE `singleuser` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL COMMENT '登陆id',
+  `registerdate` datetime NOT NULL COMMENT '登录时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userid` (`userid`)
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+
+/*Data for the table `singleuser` */
+
+insert  into `singleuser`(`id`,`userid`,`registerdate`) values 
+(1,3,'2018-12-10 17:41:23'),
+(9,4,'2018-11-30 14:00:07'),
+(23,2,'2018-12-10 10:12:03');
+
 /*Table structure for table `test` */
 
 DROP TABLE IF EXISTS `test`;

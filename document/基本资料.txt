@@ -14940,53 +14940,279 @@ ElementType.LOCAL_VARIABLE：说明该注解只能声明在一个局部变量前
 ElementType.ANNOTATION_TYPE：说明该注解只能声明在一个注解类型前。
 
 ElementType.PACKAGE：说明该注解只能声明在一个包名前。  
+
+文件对比工具延长使用:删除该路径下所有文件不包括该路径  
+C:\Users\GP\AppData\Roaming\Scooter Software\Beyond Compare 4  
   
-Mysql中经常用来存储日期的数据类型有三种：Date、Datetime、Timestamp。
-Date数据类型：用来存储没有时间的日期。Mysql获取和显示这个类型的格式为“YYYY-MM-DD”。支持的时间范围为“1000-00-00”到“9999-12-31”。
-Datetime类型：存储既有日期又有时间的数据。存储和显示的格式为 “YYYY-MM-DD HH:MM:SS”。支持的时间范围是“1000-00-00 00:00:00”到“9999-12-31 23:59:59”。
-Timestamp类型：也是存储既有日期又有时间的数据。存储和显示的格式跟Datetime一样。支持的时间范围是“1970-01-01 00:00:01”到“2038-01-19 03:14:07”。
-所有不符合上面所述格式的数据都会被转换为相应类型的0值。（0000-00-00或者0000-00-00 00:00:00）  
+background-repeat 是否循环背景
+p {background-repeat:no-repeat;background-image:url(background.gif)}/*不循环*/
+p {background-repeat:repeat;background-image:url(background.gif)}/*循环*/
+background-attachment 是否固定背景
+body {background-attachment:scroll;background-image:url(background.gif)}/*随文字一起滚动*/
+body {background-attachment:fixed;background-image:url(background.gif)}/*固定不动*/  
+  
+日志信息分类
+
+1.等级由低到高：debug<info<warn<Error<Fatal;
+
+2.区别：
+
+debug 级别最低，可以随意的使用于任何觉得有利于在调试时更详细的了解系统运行状态的东东；
+
+info  重要，输出信息：用来反馈系统的当前状态给最终用户的；
+
+后三个，警告、错误、严重错误，这三者应该都在系统运行时检测到了一个不正常的状态。
+
+warn, 可修复，系统可继续运行下去；
+
+Error, 可修复性，但无法确定系统会正常的工作下去;
+
+Fatal, 相当严重，可以肯定这种错误已经无法修复，并且如果系统继续运行下去的话后果严重。  
+  
+如何使用Token？
+
+    这是本文的重点，在这里我就介绍常用的两种方式。
+
+    1、用设备号/设备mac地址作为Token（推荐）
+
+    客户端：客户端在登录的时候获取设备的设备号/mac地址，并将其作为参数传递到服务端。
+
+    服务端：服务端接收到该参数后，便用一个变量来接收同时将其作为Token保存在数据库，并将该Token设置到session中，客户端每次请求的时候都要统一拦截，并将客户端传递的token和服务器端session中的token进行对比，如果相同则放行，不同则拒绝。
+
+    分析：此刻客户端和服务器端就统一了一个唯一的标识Token，而且保证了每一个设备拥有了一个唯一的会话。该方法的缺点是客户端需要带设备号/mac地址作为参数传递，而且服务器端还需要保存；优点是客户端不需重新登录，只要登录一次以后一直可以使用，至于超时的问题是有服务器这边来处理，如何处理？若服务器的Token超时后，服务器只需将客户端传递的Token向数据库中查询，同时并赋值给变量Token，如此，Token的超时又重新计时。
+
+    2、用session值作为Token
+
+    客户端：客户端只需携带用户名和密码登陆即可。
+
+    客户端：客户端接收到用户名和密码后并判断，如果正确了就将本地获取sessionID作为Token返回给客户端，客户端以后只需带上请求数据即可。
+
+    分析：这种方式使用的好处是方便，不用存储数据，但是缺点就是当session过期后，客户端必须重新登录才能进行访问数据。
+
+    三、使用过程中出现的问题以及解决方案？
+
+    刚才我们轻松介绍了Token的两种使用方式，但是在使用过程中我们还出现各种问题，Token第一种方法中我们隐藏了一个在网络不好或者并发请求时会导致多次重复提交数据的问题。
+
+    该问题的解决方案：将session和Token套用，session加锁  
+原文：https://blog.csdn.net/jason_fangh/article/details/55113627##1
   
   
+当用户刚安装完APP，并进行了注册，拥有了账号和密码后。此时，则该进行首次登录了（所以在登录时最好加个是否首次登录的参数传给后台）
+
+APP将用户输入的 账号和密码 提交给服务器； 
+服务器对其进行校验，若账号和密码对得上则校验通过，说明登录成功，并生成一个token值，将其保存在数据库，同时也返回给客户端； 
+客户端拿到返回的token值后，可将其保存在本地，作为公共参数，即以后每次请求服务器时都携带该token，提交给服务器，让服务器校验。 
+服务器接收到请求后，会取出请求头里的token值与数据库存储的token进行对比校验。若两个token值相同，则说明用户登录成功过，且当前正处于登录状态，此时正常返回数据，让APP显示数据。若两个值不一致，则说明原来的的登录已经失效，此时返回错误状态码，提示用户跳转至登录界面重新登录。用户每进行一次登录，登录成功后服务器都会更新个token新值返回给客户端。
+
+注意：首先看在登录界面发送登录请求那块。一开始我以为服务器返回的token值会在响应数据体中，也就是和用户信息在一起。但是我看了接口，并没有发现与token对应的字段。后来仔细看了下代码，原来token是在响应头中的。上面逻辑里的无论是存储token值，还是携带token作为公共参数，都是在网络层完成的。这一切都发生在网络层，而不麻烦业务层，这很优雅。每当登录成功后，服务器在响应头中返回新的token值，将其保存在本地。
+原文：https://blog.csdn.net/qq_34801506/article/details/80818891 
+  
+ token主要有两个作用：①：防止表单重复提交(防止表单重复提交一般还是使用前后端都限制的方式，比如：在前端点击提交之后，将按钮置为灰色，不可再次点击，然后客户端和服务端的token各自独立存储，客户端存储在Cookie或者Form的隐藏域（放在Form隐藏域中的时候，需要每个表单）中，服务端存储在Session（单机系统中可以使用）或者其他缓存系统（分布式系统可以使用）中。)
+//在页面初始化的时候调用后端代码像前端返回token
+public String initLogin(ModelMap model, HttpSession session, String loginUrl) {
+
+      model.put("extLoginView", clientManager.getExtLoginView());
+
+         // 生成token
+
+      String token = UUID.randomUUID().toString().substring(0,16);
+
+      model.put(LOGIN_TOKEN, token);
+
+    //返回地址与方法的  String loginUrl一致，即初始化的时候调用完方法后，又回到初始化页面
+
+return loginUrl;
+
+}
+
+
+②：用来作身份验证
+3：防止表单重复提交，主要的理念是，客户端初始化的时候，一般就是刚刚进入页面的时候就调用后端代码，后端代码生成一个token,返回给客户端，客户端储存token（可以在前台使用Form表单中使用隐藏域来存储这个Token，也可以使用cookie）,然后就将request(请求)中的token与（session）中的token进行比较：
+
+//跳转到添加页面
+
+    @RequestMapping("/add.do")
+
+    public String add(HttpServletRequestrequest,HttpServletResponse response){
+
+        //生成token
+
+        UUID token=UUID.randomUUID();
+
+        System.out.println("token的值"+token);
+
+        //放入session中
+
+        request.getSession().setAttribute("token",token.toString());
+
+        //放入request作用域中传到前台
+
+        request.setAttribute("token",token);
+
+        return "add";
+
+    }
+
+    //前台穿过来的token进行比对
+
+    @RequestMapping("/addMessage.do")
+
+    public synchronized String addMessage(HttpServletRequest request){
+
+        //获取session中的token
+
+        Objecttoken1=request.getSession().getAttribute("token");
+
+        //获取前台穿过来的token
+
+        String token=request.getParameter("token");
+
+        System.out.println("token1的值"+token1);
+
+        if(token1==null){
+
+            System.out.println("提交出错");
+
+        }
+
+        else if(!token1.equals(token)){
+
+            System.out.println("提交出错");
+
+        }else{
+
+            System.out.println("提交成功");
+
+            //移除session 防止重复提交
+
+           request.getSession().removeAttribute("token");
+
+        }     return "";
+
+    }
+
+4：使用基于 Token 的身份验证方法，在服务端不需要存储用户的登录记录。大概的流程是这样的：
+
+客户端使用用户名跟密码请求登录
+服务端收到请求，去验证用户名与密码
+验证成功后，服务端会签发一个 Token，再把这个 Token 发送给客户端
+客户端收到 Token 以后可以把它存储起来，比如放在 Cookie 里或者 Local Storage 里
+客户端每次向服务端请求资源的时候需要带着服务端签发的 Token
+服务端收到请求，然后去验证客户端请求里面带着的 Token，如果验证成功，就向客户端返回请求的数据
+5：
+ajax中传递token的几种方式
+
+方法一：放在请求头中
+
+
+
+ 
+
+
+$.ajax({
+    type: "POST",
+    headers: {
+        Accept: "application/json; charset=utf-8",
+        userToken: "" + userToken
+    },
+    url: "/index",
+    data: JSON.stringify(mytable.params),
+    contentType: "application/json",
+    dataType: "json",
+    success:function(data){
+                    
+    },error:function(data){
+                    
+    }
+});
+--------------------- 
+作者：qq_32784541 
+来源：CSDN 
+原文：https://blog.csdn.net/qq_32784541/article/details/79655146 
+版权声明：本文为博主原创文章，转载请附上博文链接！ 
+ 
+
+前段用户登录认证,携带信息登录,后台认证成功签发有效期为t时间的token,将客户id和token存储到Redis,有效期为2*t
+二次访问携带 token(过期小于t) 签发新的token更新Redis
+二次访问携带 token(过期大于t) 重新登录
+签发的用户认证token超时刷新策略  
+https://blog.csdn.net/sinat_25235033/article/details/80324006  
+  
+如果你希望数据库次主键(唯一性约束)存在则更新不存在则插入:
+INSERT INTO table (a,b,c) VALUES (1,2,3) ON DUPLICATE KEY UPDATE c=c+1;    
+  
+134.175.170.141  
+ABC123987@  
+  
+ linux 退出vi编辑器
+ 我们当然要保存并退出了，然后下一步了。这时，我们要按键盘左上角的"ESC" 
+ 然后这时，我们输入“冒号”，即":"(不需双引号)，在下方会出现冒号，等待输入命令，如图，我输入的是WQ。功能如下。
+
+W：write，写入
+
+Q：quit，退出
+
+再回车，就保存退出了 
+  
+export JAVA_HOME=/usr/jdk1.8.0_191
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export PATH=$PATH:$JAVA_HOME/bin
+
+export MAVEN_HOME=/usr/local/apache-maven-3.6.0
+export PATH=${PATH}:${MAVEN_HOME}/bin  
   
   
+spirng 5 以上不再支持log4j监听
+@value()读取properties给属性赋值不支持静态  
   
   
+Mapped Statements collection already contains value for ********
+映射语句集合已经包含了*****的值
+就是说mapper方法重名了  
   
+  ssm框架,如果按模块分类,mapper接口和service接口会在一个包中,
+那么会出现,service无法识别的错误,
+原因在于,扫描mapper接口的路径和扫描service的路径相同,
+那么service接口也按mapper接口处理了,因此会导致无法识别service,
+按照这个逻辑需要对同一个包中的的两种接口进行区分
+在配置mapper接口路径的
+	org.mybatis.spring.mapper.MapperScannerConfigurer
+有一个
+	annotationClass属性
+如果设置了该属性并添加了相应的注解
+那么在扫描时,只会扫描拥有这个注解的的接口,这样就可以区别mapper接口和service接口了
+
+apache common logging是一种log的框架接口,它本身并不实现log记录的功能,而是在运行时动态查找目前存在的日志库,调用相关的日志函数,从而隐藏具体的日志实现
+log4j是具体的日志实现,真正负责"写"日志的这个功能
+
+common logging本身不是log,你可以把它看做是一个日志的接口
+而log4j就是日志的实现
+
+使用common logging方式实现日志,主要的原因在于可以忽略底层的日志实现,或者说为以后的日志实现库的更换提供透明界面
+你可以考虑下,假设从log4j更换为logback,势必要重写所有原本使用log4j的源代码,而使用common logging的情况下,只需要更换jar包,而不需要对源代码做任何改动
+
+ 
+
+做日志的时候一般是两者一起用，commons-logging工作原理做接口，log4j做实现，应用起来比单独的使用log4j要简单
+
+commons-logging工作原理:
+1. 首先在classpath下寻找自己的配置文件commons-logging.properties,如果找到,则使用其中定义的Log实现类
+2. 如果找不到commons-logging.properties文件,则在查找是否已定义系统环境变量org.apache.commons.logging.Log,找到则使用其定义的Log实现类
+3. 查看classpath中是否有Log4j的包,如果发现,则自动使用Log4j作为日志实现类
+4. 使用JDK自身的日志实现类(JDK1.4以后才有日志实现类)
+5. 使用commons-logging自己提供的一个简单的日志实现类SimpleLog
+(以上顺序不保证完全准确,请参考官方文档)
+commons-logging总是能找到一个日志实现类,并且尽可能找到一个"最合适"的日志实现类.  
   
+java.sql.SQLException: Unknown system variable 'query_cache_size'  
+mysql-connecter-java.jar
+ query_cache_size已在MySQL中删除8.检查文档。
+
+它适用于JDBC驱动程序5.1.44。 
+ JAVA通过jdbc访问mySQL数据库时需要该包支持 
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+信息表明数据库驱动com.mysql.jdbc.Driver'已经被弃用了、应当使用新的驱动com.mysql.cj.jdbc.Driver'
   
   
   
